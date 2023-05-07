@@ -65,7 +65,7 @@
     
     // It will now be the other player's turn.
 
-    // The process repeats until there is a winner.
+    // The process repeats until there is a winner..
 
 
 
