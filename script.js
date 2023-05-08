@@ -3,14 +3,14 @@
 // Initial Setup:
     
     // Board will be an 8 x 8 grid (64 total squares), with the squares 
-    // alternating between black and white horizontally and vertically.
+    // alternating between gold and white horizontally and vertically.
     // Two players - each on opposite ends of the board. from any of the
     // players' perspective, there should be a white square at the top 
-    // left, a black square at the top right, a black square at the bottom
+    // left, a gold square at the top right, a gold square at the bottom
     // left, and a white square at the bottom right.
     
     // Each player starts with 12 pieces (checkers) each. Players' pieces are 
-    // positioned on opposite ends of the board on the black squares of 
+    // positioned on opposite ends of the board on the gold squares of 
     // the first three rows of their respective sides.
 
     // Game will initialize with 'red' starting first.
@@ -18,7 +18,7 @@
 
 // Rules:
 
-    // Checkers can only move diagonally on black squares.
+    // Checkers can only move diagonally on gold squares.
         // NOTE: Checkers can "jump" over opponent checkers diagonally. At 
         // which point, that "jumped" opponent checker will be considered 
         // captured and removed from the board.
@@ -65,9 +65,9 @@
     
     // It will now be the other player's turn.
 
-    // The process repeats until there is a winner..
+    // The process repeats until there is a winner.
 
-
+    
 
 
 /*----- constants -----*/
@@ -84,3 +84,10 @@
 
 
 /*----- functions -----*/
+init()
+
+
+function render() {
+
+};
+
