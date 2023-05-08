@@ -72,26 +72,62 @@
 
 /*----- constants -----*/
 const COLORS = {
-    '1': 'black';
-    '-1': 'red';
+    '1': 'black',
+    '-1': 'red'
 }
 
 /*----- state variables -----*/
 let board;
 let turn;
-let winner; 
+let winner;
+let blackGraveyard; 
+let redGraveyard;
 
 /*----- cached elements  -----*/
-const squareEls = document.querySelectorAll('#board > div')
+const squareEls = [...document.querySelectorAll('#board > div')];
 
 /*----- event listeners -----*/
 
 
 /*----- functions -----*/
-init()
+init();
 
+
+function init() {
+
+    
+    // board = [
+    // // col a   b   c   d   e   f   g   h  
+    //     [  0, -1,  0, -1,  0, -1,  0, -1], // row 8
+    //     [ -1,  0, -1,  0, -1,  0, -1,  0], // row 7
+    //     [  0, -1,  0, -1,  0, -1,  0, -1], // row 6
+    //     [  0,  0,  0,  0,  0,  0,  0,  0], // row 5
+    //     [  0,  0,  0,  0,  0,  0,  0,  0], // row 4
+    //     [  1,  0,  1,  0,  1,  0,  1,  0], // row 3
+    //     [  0,  1,  0,  1,  0,  1,  0,  1], // row 2
+    //     [  1,  0,  1,  0,  1,  0,  1,  0], // row 1
+    //     ];
+    turn = 1;
+    winner = null;
+    render();
+};
 
 function render() {
+    renderBoard()
+};
 
+
+// need to map div#a8 to board[0][0]
+//  ''  ''  '' div#b8 === board[0][1]
+//  ''  ''  '' div#c8 === board[0][3]
+
+function renderBoard() {
+    board.forEach(function(rowArr, rowIdx) {
+        rowArr.forEach(function(cellVal, colIdx) {
+            if (cellVal === 1) {squareEls.innerHTML = '<span id="black-piece"></span>'}
+            else if (cellVal === -1) {squareEls.innerHTML = '<span id="black-piece"></span>'}
+            else if (cellVal === 0) {squareEls.innerHTML = ''}
+        });
+    });
 };
 
