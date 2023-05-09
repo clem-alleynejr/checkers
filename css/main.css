@@ -55,7 +55,7 @@ h1 {
     border: 1vmin solid black;
 }
 
-#black-piece {
+.black-piece {
     border-radius: 50%;
     background-color: black;
     height: 7vmin;
@@ -63,7 +63,7 @@ h1 {
     display: inline-block;
 }
 
-#red-piece {
+.red-piece {
     border-radius: 50%;
     background-color: red;
     height: 7vmin;

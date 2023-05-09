@@ -72,8 +72,17 @@
 
 /*----- constants -----*/
 const COLORS = {
-    '1': 'black',
-    '-1': 'red'
+    '1': {
+        piece: '<span class="black-piece"></span>',
+        color: 'black'
+    },
+    '-1': {
+        piece: '<span class="red-piece"></span>',
+        color: 'red'
+    },
+    '0': {
+        piece: ''
+    }
 }
 
 /*----- state variables -----*/
@@ -84,7 +93,7 @@ let blackGraveyard;
 let redGraveyard;
 
 /*----- cached elements  -----*/
-const squareEls = [...document.querySelectorAll('#board > div')];
+let messageEl = document.querySelector('main h1')
 
 /*----- event listeners -----*/
 
@@ -94,40 +103,44 @@ init();
 
 
 function init() {
-
-    
-    // board = [
-    // // col a   b   c   d   e   f   g   h  
-    //     [  0, -1,  0, -1,  0, -1,  0, -1], // row 8
-    //     [ -1,  0, -1,  0, -1,  0, -1,  0], // row 7
-    //     [  0, -1,  0, -1,  0, -1,  0, -1], // row 6
-    //     [  0,  0,  0,  0,  0,  0,  0,  0], // row 5
-    //     [  0,  0,  0,  0,  0,  0,  0,  0], // row 4
-    //     [  1,  0,  1,  0,  1,  0,  1,  0], // row 3
-    //     [  0,  1,  0,  1,  0,  1,  0,  1], // row 2
-    //     [  1,  0,  1,  0,  1,  0,  1,  0], // row 1
-    //     ];
+    board = [
+    // col 0   1   2   3   4   5   6   7      
+        [  0, -1,  0, -1,  0, -1,  0, -1], // row 0
+        [ -1,  0, -1,  0, -1,  0, -1,  0], // row 1
+        [  0, -1,  0, -1,  0, -1,  0, -1], // row 2
+        [  0,  0,  0,  0,  0,  0,  0,  0], // row 3
+        [  0,  0,  0,  0,  0,  0,  0,  0], // row 4
+        [  1,  0,  1,  0,  1,  0,  1,  0], // row 5
+        [  0,  1,  0,  1,  0,  1,  0,  1], // row 6
+        [  1,  0,  1,  0,  1,  0,  1,  0], // row 7
+        ];
     turn = 1;
     winner = null;
     render();
 };
 
 function render() {
-    renderBoard()
+    renderBoard();
+    renderMessage();
+    renderControls();
 };
-
-
-// need to map div#a8 to board[0][0]
-//  ''  ''  '' div#b8 === board[0][1]
-//  ''  ''  '' div#c8 === board[0][3]
 
 function renderBoard() {
     board.forEach(function(rowArr, rowIdx) {
         rowArr.forEach(function(cellVal, colIdx) {
-            if (cellVal === 1) {squareEls.innerHTML = '<span id="black-piece"></span>'}
-            else if (cellVal === -1) {squareEls.innerHTML = '<span id="black-piece"></span>'}
-            else if (cellVal === 0) {squareEls.innerHTML = ''}
+            const squareEl = document.getElementById(`r${rowIdx}c${colIdx}`)
+            squareEl.innerHTML = COLORS[cellVal].piece;         
         });
     });
 };
+
+function renderMessage() {
+    if (winner === 'T') {
+        messageEl.innerHTML = '<span style="color: #EBB64A">It\'s a Tie!!!</span>'
+    } else if (winner) {
+        messageEl.innerHTML = `<span style="color: ${COLORS[winner].color}">${COLORS[winner].color} Wins!</span>`
+    } else {
+        messageEl.innerHTML = `<span style="color: ${COLORS[turn].color}">${COLORS[turn].color}'s Turn</span>`
+    }
+}
 
