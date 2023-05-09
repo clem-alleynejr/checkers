@@ -76,10 +76,12 @@ const COLORS = {
         piece: '<span class="black-piece"></span>',
         color: 'black'
     },
+
     '-1': {
         piece: '<span class="red-piece"></span>',
         color: 'red'
     },
+
     '0': {
         piece: ''
     }
@@ -92,6 +94,8 @@ let winner;
 let afterMove; // true if there is an available move player can take after making previous move
 let blackGraveyard; 
 let redGraveyard;
+let mvDiagUpLeft; let mvDiagUpRight; // true if piece can move up and left/right diagonally
+let mvDiagDownLeft; let mvDiagDownRight; // true if piece can move down and left/right diagonally 
 
 /*----- cached elements  -----*/
 const messageEl = document.querySelector('main h1')
@@ -109,8 +113,35 @@ document.getElementById('end-turn').addEventListener('click', nextTurn);
 init();
 
 function handleClick(evt) {
+    // Guards
+    if (evt.target.className !== "black-piece" && evt.target.className !== "red-piece") return;
+    if (turn === 1 && evt.target.className !== "black-piece") return;
+    if (turn === -1 && evt.target.className !== "red-piece") return;
+    // Otherwise...
+    getAvailDiagMoves();
+    getAvailJumpMoves();
+};
 
-}
+function getAvailDiagMoves() { // normal diagonal moves (i.e not kings and not jumping)
+  
+    // if black
+        // mvDiagUpLeft = adjacent(rowIdx, colIdx, -1, -1) square has a value of 0 ? true : false 
+        // mvDiagUpRight = adjacent(rowIdx, colIdx, -1, 1) square has a value of 0 ? true : false 
+         
+    
+    // if red
+        // mvDiagDownLeft = adjacent(rowIdx, colIdx, 1, -1) square has a value of 0 ? true : false 
+        // mvDiagDownRight = adjacent(rowIdx, colIdx, 1, 1) square has a value of 0 ? true : false 
+        
+};
+
+function getAvailJumpMoves() { 
+
+};
+
+function nextTurn(evt) {
+    turn *= -1;
+};
 
 function init() {
     board = [
