@@ -113,29 +113,37 @@ document.getElementById('end-turn').addEventListener('click', nextTurn);
 init();
 
 function handleClick(evt) {
-    // Guards
-    if (evt.target.className !== "black-piece" && evt.target.className !== "red-piece") return;
-    if (turn === 1 && evt.target.className !== "black-piece") return;
-    if (turn === -1 && evt.target.className !== "red-piece") return;
+    // Guards:
+    if (evt.target.className !== "black-piece" && evt.target.className !== "red-piece") return; // Need to click on checker piece
+    if (turn === 1 && evt.target.className !== "black-piece") return; // Black player cant pick a red piece
+    if (turn === -1 && evt.target.className !== "red-piece") return; // Red player can't pick a black piece
     // Otherwise...
-    getAvailDiagMoves();
-    getAvailJumpMoves();
+    onSquareRow = evt.target.parentElement.id.substr(1,1);
+    onSquareCol = evt.target.parentElement.id.substr(3,3);
+    onSquare = board[onSquareRow][onSquareCol];
+    // if black:
+    if (evt.target.className === "black-piece") {
+        mvDiagUpLeft = countAdjacent(rowIdx, colIdx, -1, -1) === 0 ? true : false; // black can move up diagonal left if true
+        mvDiagUpRight = countAdjacent(rowIdx, colIdx, -1, 1) === 0 ? true : false; // black can move up diagonal right if true
+    };
+    // if red:
+    if (evt.target.className === "red-piece") {
+        mvDiagDownLeft = countAdjacent(rowIdx, colIdx, 1, -1) === 0 ? true : false; // red can move down diagonal left if true
+        mvDiagDownRight = countAdjacent(rowIdx, colIdx, 1, 1) === 0 ? true : false; // red can move down diagonal right if true
+    };
+    getAvailMoves();
 };
 
-function getAvailDiagMoves() { // normal diagonal moves (i.e not kings and not jumping)
-  
-    // if black
-        // mvDiagUpLeft = adjacent(rowIdx, colIdx, -1, -1) square has a value of 0 ? true : false 
-        // mvDiagUpRight = adjacent(rowIdx, colIdx, -1, 1) square has a value of 0 ? true : false 
-         
-    
-    // if red
-        // mvDiagDownLeft = adjacent(rowIdx, colIdx, 1, -1) square has a value of 0 ? true : false 
-        // mvDiagDownRight = adjacent(rowIdx, colIdx, 1, 1) square has a value of 0 ? true : false 
-        
+function getAvailDiagMoves(evt) {
+
 };
 
-function getAvailJumpMoves() { 
+
+function getAvailJumpMoves(evt) { 
+
+};
+
+function countAdjacent(rowIdx, colIdx, colOffset, rowOffset) {
 
 };
 
