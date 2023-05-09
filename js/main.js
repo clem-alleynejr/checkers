@@ -89,18 +89,28 @@ const COLORS = {
 let board;
 let turn;
 let winner;
+let afterMove; // true if there is an available move player can take after making previous move
 let blackGraveyard; 
 let redGraveyard;
 
 /*----- cached elements  -----*/
-let messageEl = document.querySelector('main h1')
+const messageEl = document.querySelector('main h1')
+const playAgainBtnEl = document.getElementById('play-again')
+const endTurnBtnEl = document.getElementById('end-turn') 
+
 
 /*----- event listeners -----*/
+document.getElementById('board').addEventListener('click', handleClick);
+document.getElementById('play-again').addEventListener('click', init);
+document.getElementById('end-turn').addEventListener('click', nextTurn);
 
 
 /*----- functions -----*/
 init();
 
+function handleClick(evt) {
+
+}
 
 function init() {
     board = [
@@ -116,6 +126,23 @@ function init() {
         ];
     turn = 1;
     winner = null;
+    afterMove = null;
+    blackGraveyard = [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0]
+    ]
+    redGraveyard = [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0]
+    ]
     render();
 };
 
@@ -128,7 +155,7 @@ function render() {
 function renderBoard() {
     board.forEach(function(rowArr, rowIdx) {
         rowArr.forEach(function(cellVal, colIdx) {
-            const squareEl = document.getElementById(`r${rowIdx}c${colIdx}`)
+            const squareEl = document.getElementById(`r${rowIdx}c${colIdx}`);
             squareEl.innerHTML = COLORS[cellVal].piece;         
         });
     });
@@ -136,11 +163,15 @@ function renderBoard() {
 
 function renderMessage() {
     if (winner === 'T') {
-        messageEl.innerHTML = '<span style="color: #EBB64A">It\'s a Tie!!!</span>'
+        messageEl.innerHTML = '<span style="color: #EBB64A">It\'s a Tie!!!</span>';
     } else if (winner) {
-        messageEl.innerHTML = `<span style="color: ${COLORS[winner].color}">${COLORS[winner].color} Wins!</span>`
+        messageEl.innerHTML = `<span style="color: ${COLORS[winner].color}">${COLORS[winner].color} Wins!</span>`;
     } else {
-        messageEl.innerHTML = `<span style="color: ${COLORS[turn].color}">${COLORS[turn].color}'s Turn</span>`
+        messageEl.innerHTML = `<span style="color: ${COLORS[turn].color}">${COLORS[turn].color}'s Turn</span>`;
     }
-}
+};
 
+function renderControls() {
+    playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
+    endTurnBtnEl.style.visibility = afterMove ? 'visible' : 'hidden';
+};
