@@ -87,7 +87,7 @@ const COLORS = {
     }
 }
 
-// hard coded as the board will always be 8x8
+// hard coded, as the board will always be 8x8:
 const firstColNum = 0 
 const lastColNum = 7
 const topRowNum = 0
@@ -98,7 +98,7 @@ let board;
 let turn; // 1 for Black, -1 for Red
 let blackScore; // starts at 12. if this reaches 0, red wins
 let redScore; // starts at 12. if this reaches 0, black wins
-let allPieces; 
+let playerPieces; 
 let selectedPiece; // object containing properties of selected piece
 let winner;
 let afterMove; // true if there is an available move player can take after making previous move
@@ -108,8 +108,8 @@ let redGraveyard;
 
 /*----- cached elements  -----*/
 const squareEls = document.querySelectorAll('#board > div')
-let blackPieceEls = document.querySelectorAll('.black-piece')
-let redPieceEls = document.querySelectorAll('.red-piece')
+let blackPieceEls = document.querySelectorAll('span[class^="black"]')
+let redPieceEls = document.querySelectorAll('span[class^="red-piece"]')
 const messageEl = document.querySelector('main h1')
 const playAgainBtnEl = document.getElementById('play-again')
 const endTurnBtnEl = document.getElementById('end-turn') 
@@ -123,7 +123,26 @@ document.getElementById('end-turn').addEventListener('click', nextTurn);
 /*----- functions -----*/
 init();
 
+function addEventListenersOnPieces() {
+    if (turn === 1) {
+        blackPieceEls.forEach(blackPiece => blackPiece.addEventListener('click', getPlayerPieces))
+    } else {
+        redPieceEls.forEach(redPiece => redPiece.addEventListener('click', getPlayerPieces))
+    }
+}
 
+function getPlayerPieces() {
+    if (turn === 1) {
+        playerPieces = redPieceEls;
+    } else {
+        playerPieces = blackPieceEls;
+
+    }
+}
+
+function removeAllOnclicks() {
+    squareEls.forEach(square => square.removeAttribute('onclick'));
+}
 
 
 function getSelectedPiece() {
@@ -240,7 +259,7 @@ function getAvailJumpMoves() {
         }
     if (turn === -1) // Red perspective
         if (board[twoUp][twoLeft] === null 
-            && board[up][left] >= 12 // pieces 0-11 belong to Black
+            && board[up][left] >= 12 // pieces 12-23 belong to Black
             && twoUp <= topRowNum
             && twoLeft >= firstColNum) {
                 selectedPiece.jumpDiagUpLeft = true;
@@ -266,15 +285,51 @@ function getAvailJumpMoves() {
 };
 
 function createDestinationClicks() {
-    if (mvDiagUpLeft)
-    if (mvDiagUpRight)
-    if (jumpDiagUpLeft)
-    if (jumpDiagUpRight)
-    if (mvDiagDownLeft)
-    if (mvDiagDownRight)
-    if (jumpDiagDownLeft)
-    if (jumpDiagDownRight)
+    if (mvDiagUpLeft) {
+        document.getElementById(`r${up}c${left}`).setAttribute('onclick', 'movePiece(-1, -1)');
+    }
+    if (mvDiagUpRight) {
+        document.getElementById(`r${up}c${right}`).setAttribute('onclick', 'movePiece(-1, 1)');
+    }
+    if (jumpDiagUpLeft) {
+        document.getElementById(`r${twoUp}c${twoLeft}`).setAttribute('onclick', 'movePiece(-2, -2)');
+    }
+    if (jumpDiagUpRight) {
+        document.getElementById(`r${twoUp}c${twoRight}`).setAttribute('onclick', 'movePiece(-2, 2)');
+    }
+    if (mvDiagDownLeft) {
+        document.getElementById(`r${down}c${left}`).setAttribute('onclick', 'movePiece(1, -1)');
+    }
+    if (mvDiagDownRight) {
+        document.getElementById(`r${down}c${right}`).setAttribute('onclick', 'movePiece(1, 1)');
+    }
+    if (jumpDiagDownLeft) {
+        document.getElementById(`r${twoDown}c${twoLeft}`).setAttribute('onclick', 'movePiece(2, -2)');
+    }
+    if (jumpDiagDownRight) {
+        document.getElementById(`r${twoDown}c${twoRight}`).setAttribute('onclick', 'movePiece(2, 2)');
+    }
 }
+
+function movePiece(rowOffset, colOffset) {
+    vertMove = selectedPiece.pieceRow + rowOffset;
+    horizMove = selectedPiece.pieceCol + colOffset;
+    document.getElementById(selectedPiece.pieceId).remove();
+    document.getElementById(`r${vertMove}c${horizMove}`).innerHTML = '';
+    if (turn === 1) {
+        document.getElementById(`r${rowOffset}c${colOffset}`).innerHTML = `<span class="black-piece king" id="${selectedPiece.pieceId}"></p>`;
+        blackPieceEls = document.querySelectorAll('span[class^="black"]')
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 
