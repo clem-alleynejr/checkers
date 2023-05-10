@@ -78,7 +78,7 @@ h1 {
 }
 
 #board > div:hover {
-    border: 0.5vmin solid blue;
+    border: 0.25vmin solid blue;
     transition: 0.2s ease-out;
 }
 
