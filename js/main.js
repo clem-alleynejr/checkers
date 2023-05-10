@@ -136,14 +136,33 @@ function getPlayerPieces() {
         playerPieces = redPieceEls;
     } else {
         playerPieces = blackPieceEls;
-
     }
+    removeAllOnclicks();
+    removeSelectionBorders();
 }
 
-function removeAllOnclicks() {
+function removeAllOnclicks() { // Note: Onclick attribute will be used on the squares instead of addEventListener, as these will need to stay dynamic 
     squareEls.forEach(square => square.removeAttribute('onclick'));
 }
 
+function removeSelectionBorders() {
+    playerPieces.forEach(piece => piece.style.border = '')
+    resetSelectedPieceProperties();
+    getSelectedPiece();
+}
+
+function resetSelectedPieceProperties() {
+        selectedPiece.pieceId = -1;
+        selectedPiece.king = false;
+        selectedPiece.mvDiagUpLeft = false;
+        selectedPiece.mvDiagUpRight = false;
+        selectedPiece.jumpDiagUpLeft = false;
+        selectedPiece.jumpDiagUpRight = false;
+        selectedPiece.mvDiagDownLeft = false;
+        selectedPiece.mvDiagDownRight = false;
+        selectedPiece.jumpDiagDownLeft = false;
+        selectedPiece.jumpDiagDownRight = false;
+}
 
 function getSelectedPiece() {
     selectedPiece.pieceId = parseInt(evt.target.id);
