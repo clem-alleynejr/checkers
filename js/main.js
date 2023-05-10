@@ -168,6 +168,7 @@ function getSelectedPiece() {
     selectedPiece.pieceId = parseInt(evt.target.id);
     selectedPiece.pieceRow = board.findIndex((row) => row.includes(selectedPiece.pieceId) === true);
     selectedPiece.pieceCol = board[selectedPiece.pieceRow].findIndex((col) => col === selectedPiece.pieceId);
+    isPieceKing();
 }
 
 function isPieceKing() {
@@ -251,9 +252,9 @@ function getAvailDiagMoves() {
 
 
 function getAvailJumpMoves() {
-    if (turn === 1) // Black perspective
+    if (turn === 1) { // Black perspective
         if (board[twoUp][twoLeft] === null 
-            && board[up][left] <= 11 // pieces 0-11 belong to Red
+            && board[up][left] <= 11 // pieces 0-11 belong to Red (can jump over them)
             && twoUp <= topRowNum
             && twoLeft >= firstColNum) {
                 selectedPiece.jumpDiagUpLeft = true;
@@ -276,9 +277,9 @@ function getAvailJumpMoves() {
             && twoRight <= lastColNum) {
                 selectedPiece.jumpDiagDownRight = true;
         }
-    if (turn === -1) // Red perspective
+    } else {// Red perspective
         if (board[twoUp][twoLeft] === null 
-            && board[up][left] >= 12 // pieces 12-23 belong to Black
+            && board[up][left] >= 12 // pieces 12-23 belong to Black (can jump over them)
             && twoUp <= topRowNum
             && twoLeft >= firstColNum) {
                 selectedPiece.jumpDiagUpLeft = true;
@@ -301,9 +302,10 @@ function getAvailJumpMoves() {
             && twoRight <= lastColNum) {
                 selectedPiece.jumpDiagDownRight = true;
         }
+    }
 };
 
-function createDestinationClicks() {
+function createDestinationClicks() { // onclick attributes used instead of addEvent listener, as these need to be dynamic
     if (mvDiagUpLeft) {
         document.getElementById(`r${up}c${left}`).setAttribute('onclick', 'movePiece(-1, -1)');
     }
@@ -334,12 +336,35 @@ function movePiece(rowOffset, colOffset) {
     vertMove = selectedPiece.pieceRow + rowOffset;
     horizMove = selectedPiece.pieceCol + colOffset;
     document.getElementById(selectedPiece.pieceId).remove();
-    document.getElementById(`r${vertMove}c${horizMove}`).innerHTML = '';
+    document.getElementById(`r${selectedPiece.pieceRow}c${horizMove}`).innerHTML = '';
     if (turn === 1) {
-        document.getElementById(`r${rowOffset}c${colOffset}`).innerHTML = `<span class="black-piece king" id="${selectedPiece.pieceId}"></p>`;
-        blackPieceEls = document.querySelectorAll('span[class^="black"]')
+        if (selectedPiece.king) {
+            document.getElementById(`r${vertMove}c${horizMove}`).innerHTML = `<span class="black-piece king" id="${selectedPiece.pieceId}"></p>`;
+            blackPieceEls = document.querySelectorAll('span[class^="black"]')
+            } else {
+            document.getElementById(`r${vertMove}c${horizMove}`).innerHTML = `<span class="black-piece" id="${selectedPiece.pieceId}"></p>`;
+            blackPieceEls = document.querySelectorAll('span[class^="black"]')
+        }
+    } else {
+        if (selectedPiece.king) {
+            document.getElementById(`r${vertMove}c${horizMove}`).innerHTML = `<span class="red-piece king" id="${selectedPiece.pieceId}"></p>`;
+            blackPieceEls = document.querySelectorAll('span[class^="red"]')
+            } else {
+            document.getElementById(`r${vertMove}c${horizMove}`).innerHTML = `<span class="red-piece" id="${selectedPiece.pieceId}"></p>`;
+            blackPieceEls = document.querySelectorAll('span[class^="red"]')
+        }
+    }
+    let rowOfPiece = selectedPiece.pieceRow; // assigned to variable, as the function doesnt work with the object properties passed through directly
+    let colOfPiece = selectedPiece.pieceCol; // assigned to variable, as the function doesnt work with the object properties passed through directly
+    if ((rowOffset === -2 && colOffset === -2) || (rowOffset === -2 && colOffset === 2)
+    || (rowOffset === 2 && colOffset === -2) || (rowOffset === 2 && colOffset === 2)) {
+        changeBoardState()
+    } else {
+        changeBoardState()   
     }
 }
+
+
 
 
 
