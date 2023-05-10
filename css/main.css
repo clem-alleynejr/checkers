@@ -63,12 +63,20 @@ h1 {
     display: inline-block;
 }
 
+.king.black-piece {
+    background-color: orange
+}
+
 .red-piece {
     border-radius: 50%;
     background-color: red;
     height: 7vmin;
     width: 7vmin;
     display: inline-block;
+}
+
+.king.red-piece {
+    background-color: purple;
 }
 
 #board > div {

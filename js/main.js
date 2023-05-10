@@ -87,22 +87,32 @@ const COLORS = {
     }
 }
 
+// hard coded as the board will always be 8x8
+const firstColNum = 0 
+const lastColNum = 7
+const topRowNum = 0
+const botRowNum = 7
+
 /*----- state variables -----*/
 let board;
-let turn;
+let turn; // 1 for Black, -1 for Red
+let blackScore; // starts at 12. if this reaches 0, red wins
+let redScore; // starts at 12. if this reaches 0, black wins
+let allPieces; 
+let selectedPiece; // object containing properties of selected piece
 let winner;
 let afterMove; // true if there is an available move player can take after making previous move
 let blackGraveyard; 
 let redGraveyard;
-let mvDiagUpLeft; let mvDiagUpRight; // true if piece can move up and left/right diagonally
-let mvDiagDownLeft; let mvDiagDownRight; // true if piece can move down and left/right diagonally 
 // let selectedPiece;
 
 /*----- cached elements  -----*/
+const squareEls = document.querySelectorAll('#board > div')
+let blackPieceEls = document.querySelectorAll('.black-piece')
+let redPieceEls = document.querySelectorAll('.red-piece')
 const messageEl = document.querySelector('main h1')
 const playAgainBtnEl = document.getElementById('play-again')
 const endTurnBtnEl = document.getElementById('end-turn') 
-const squaresEl = co
 
 /*----- event listeners -----*/
 document.getElementById('board').addEventListener('click', handleClick);
@@ -112,6 +122,177 @@ document.getElementById('end-turn').addEventListener('click', nextTurn);
 
 /*----- functions -----*/
 init();
+
+
+
+
+function getSelectedPiece() {
+    selectedPiece.pieceId = parseInt(evt.target.id);
+    selectedPiece.pieceRow = board.findIndex((row) => row.includes(selectedPiece.pieceId) === true);
+    selectedPiece.pieceCol = board[selectedPiece.pieceRow].findIndex((col) => col === selectedPiece.pieceId);
+}
+
+function isPieceKing() {
+    if (document.getElementById(selectedPiece.pieceId).classList.contains("king")) {
+        selectedPiece.king = true;
+    } else {
+        selectedPiece.king = false;
+    }
+    getAvailMoves();
+}
+
+function getAvailMoves() {
+    up = selectedPiece.pieceRow - 1;
+    down = selectedPiece.pieceRow + 1;
+    left = selectedPiece.pieceCol - 1;
+    right = selectedPiece.pieceCol + 1;   
+    twoUp = selectedPiece.pieceRow - 2;
+    twoDown = selectedPiece.pieceRow + 2;
+    twoLeft = selectedPiece.pieceCol - 2;
+    twoRight = selectedPiece.pieceCol + 2;
+    getAvailDiagMoves();
+    getAvailJumpMoves();
+    if (selectedPiece.mvDiagUpLeft || selectedPiece.mvDiagUpRight || selectedPiece.jumpDiagUpLeft || selectedPiece.jumpDiagUpRight || selectedPiece.mvDiagDownLeft 
+        || selectedPiece.mvDiagDownRight || selectedPiece.jumpDiagDownLeft || selectedPiece.jumpDiagDownRight) {
+            document.getElementById(selectedPiece.pieceId).style.border = '0.25vmin solid blue';
+    } else return; 
+}
+
+function getAvailDiagMoves() {
+    if (selectedPiece.king) {
+        if (board[up][left] === null
+            && left >= firstColNumn
+            && up <= topRowNum) {
+                selectedPiece.mvDiagUpLeft = true; 
+        }
+        if (board[up][right] === null
+            && right <= lastColNum
+            && up <= topRowNum) {
+                selectedPiece.mvDiagUpRight = true;
+        }
+        if (board[down][left] === null
+            && left >= firstColNum
+            && down >= botRowNum) {
+                selectedPiece.mvDiagDownLeft = true;
+        }
+        if (board[down][right] === null
+            && right <= lastColNum
+            && down >= botRowNum) {
+                selectedPiece.mvDiagDownRight = true;
+        }
+    } else {
+        if (turn === 1) {
+            if (board[up][right] === null
+                && right <= lastColNum
+                && up <= topRowNum) {
+                    selectedPiece.mvDiagUpRight = true;
+            }
+            if (board[up][right] === null
+                && right <= lastColNum
+                && up <= topRowNum) {
+                    selectedPiece.mvDiagUpRight = true;
+            }            
+            selectedPiece.mvDiagDownLeft = false;
+            selectedPiece.mvDiagDownRight = false;
+        } else {
+            selectedPiece.mvDiagUpLeft = false;
+            selectedPiece.mvDiagUpRight = true;
+            if (board[down][left] === null
+                && left >= firstColNum
+                && down >= botRowNum) {
+                    selectedPiece.mvDiagDownLeft = true;
+            }
+            if (board[down][right] === null
+                && right <= lastColNum
+                && down >= botRowNum) {
+                    selectedPiece.mvDiagDownRight = true;
+            }
+        }
+    }
+};
+
+
+function getAvailJumpMoves() {
+    if (turn === 1) // Black perspective
+        if (board[twoUp][twoLeft] === null 
+            && board[up][left] <= 11 // pieces 0-11 belong to Red
+            && twoUp <= topRowNum
+            && twoLeft >= firstColNum) {
+                selectedPiece.jumpDiagUpLeft = true;
+        }
+        if (board[twoUp][twoRight] === null
+            && board[up][right] <= 11
+            && twoUp <= topRowNum
+            && twoRight <= lastColNum) {
+                selectedPiece.jumpDiagUpRight = true;
+        }
+        if (board[twoDown][twoLeft] === null
+            && board[down][left] <= 11
+            && twoDown >= botRowNum
+            && twoLeft >= firstColNum) {
+                selectedPiece.jumpDiagDownLeft = true;
+        }
+        if (board[twoDown][twoRight] === null
+            && board[down][right] <= 11
+            && twoDown >= botRowNum
+            && twoRight <= lastColNum) {
+                selectedPiece.jumpDiagDownRight = true;
+        }
+    if (turn === -1) // Red perspective
+        if (board[twoUp][twoLeft] === null 
+            && board[up][left] >= 12 // pieces 0-11 belong to Black
+            && twoUp <= topRowNum
+            && twoLeft >= firstColNum) {
+                selectedPiece.jumpDiagUpLeft = true;
+        }
+        if (board[twoUp][twoRight] === null
+            && board[up][right] >= 12
+            && twoUp <= topRowNum
+            && twoRight <= lastColNum) {
+                selectedPiece.jumpDiagUpRight = true;
+        }
+        if (board[twoDown][twoLeft] === null
+            && board[down][left] >= 12
+            && twoDown >= botRowNum
+            && twoLeft >= firstColNum) {
+                selectedPiece.jumpDiagDownLeft = true;
+        }
+        if (board[twoDown][twoRight] === null
+            && board[down][right] >= 12
+            && twoDown >= botRowNum
+            && twoRight <= lastColNum) {
+                selectedPiece.jumpDiagDownRight = true;
+        }
+};
+
+function createDestinationClicks() {
+    if (mvDiagUpLeft)
+    if (mvDiagUpRight)
+    if (jumpDiagUpLeft)
+    if (jumpDiagUpRight)
+    if (mvDiagDownLeft)
+    if (mvDiagDownRight)
+    if (jumpDiagDownLeft)
+    if (jumpDiagDownRight)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -135,12 +316,7 @@ function handleClick(evt) {
     
 };
 
-function getAvailDiagMoves(onSquareRow, onSquareCol) {
-    const onSquare = board[onSquareRow][onSquareCol];
-    mvDiagUpLeft = (onSquareCol - 1 >= 0 && board[onSquareRow - 1][onSquareCol - 1] === 0) ? true : false;
-    mvDiagUpRight = (onSquareCol + 1 <= board[0].length - 1 && board[onSquareRow - 1][onSquareCol + 1] === 0) ? true : false;
-    console.log(mvDiagUpLeft, mvDiagUpRight) 
-};
+
 
 
 
@@ -163,17 +339,32 @@ function nextTurn(evt) {
 
 function init() {
     board = [
-    // col 0   1   2   3   4   5   6   7      
-        [  0, -1,  0, -1,  0, -1,  0, -1], // row 0
-        [ -1,  0, -1,  0, -1,  0, -1,  0], // row 1
-        [  0, -1,  0, -1,  0, -1,  0, -1], // row 2
-        [  0,  0,  0,  0,  0,  0,  0,  0], // row 3
-        [  0,  0,  0,  0,  0,  0,  0,  0], // row 4
-        [  1,  0,  1,  0,  1,  0,  1,  0], // row 5
-        [  0,  1,  0,  1,  0,  1,  0,  1], // row 6
-        [  1,  0,  1,  0,  1,  0,  1,  0], // row 7
+        [ null, 0, null, 1, null, 2, null, 3],
+        [ 4, null, 5, null, 6, null, 7, null], 
+        [ null, 8, null, 9, null, 10, null, 11], 
+        [null, null, null, null, null, null, null, null], 
+        [null, null, null, null, null, null, null, null], 
+        [ 12, null, 13, null, 14, null, 15, null], 
+        [ null, 16, null, 17, null, 18, null, 19], 
+        [ 20, null, 21, null, 22, null, 23, null], 
         ];
-    turn = 1;
+    turn = 1; // Black Starts
+    blackScore = 12;
+    redScore = 12;
+    selectedPiece = {
+        pieceId: -1,
+        pieceRow: -1,
+        pieceCol: -1,
+        king: false,
+        mvDiagUpLeft: false,
+        mvDiagUpRight: false,
+        jumpDiagUpLeft: false,
+        jumpDiagUpRight: false,
+        mvDiagDownLeft: false,
+        mvDiagDownRight: false,
+        jumpDiagDownLeft: false,
+        jumpDiagDownRight: false,
+    }
     winner = null;
     afterMove = null;
     blackGraveyard = [
