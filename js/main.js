@@ -71,27 +71,20 @@
 
 
 /*----- constants -----*/
-const COLORS = {
-    '1': {
-        piece: '<span class="black-piece"></span>',
-        color: 'black'
-    },
-
-    '-1': {
-        piece: '<span class="red-piece"></span>',
-        color: 'red'
-    },
-
-    '0': {
-        piece: ''
+    const COLORS = {
+        '1': {
+            color: 'black'
+        },
+        '-1': {
+            color: 'red'
+        }
     }
-}
 
-// hard coded, as the board will always be 8x8:
-const firstColNum = 0 
-const lastColNum = 7
-const topRowNum = 0
-const botRowNum = 7
+    // hard coded, as the board will always be 8x8:
+    const firstColNum = 0 
+    const lastColNum = 7
+    const topRowNum = 0
+    const botRowNum = 7
 
 /*----- state variables -----*/
 let board;
@@ -101,7 +94,6 @@ let redScore; // starts at 12. if this reaches 0, black wins
 let playerPieces; 
 let selectedPiece; // object containing properties of selected piece
 let winner;
-let afterMove; // true if there is an available move player can take after making previous move
 let blackGraveyard; 
 let redGraveyard;
 // let selectedPiece;
@@ -115,13 +107,88 @@ const playAgainBtnEl = document.getElementById('play-again')
 const endTurnBtnEl = document.getElementById('end-turn') 
 
 /*----- event listeners -----*/
-document.getElementById('board').addEventListener('click', handleClick);
-document.getElementById('play-again').addEventListener('click', init);
-document.getElementById('end-turn').addEventListener('click', nextTurn);
+// document.getElementById('board').addEventListener('click', handleClick);
+// document.getElementById('play-again').addEventListener('click', init);
+// document.getElementById('end-turn').addEventListener('click', nextTurn);
 
 
 /*----- functions -----*/
 init();
+
+function init() {
+    board = [
+        [ null, 0, null, 1, null, 2, null, 3],
+        [ 4, null, 5, null, 6, null, 7, null], 
+        [ null, 8, null, 9, null, 10, null, 11], 
+        [null, null, null, null, null, null, null, null], 
+        [null, null, null, null, null, null, null, null], 
+        [ 12, null, 13, null, 14, null, 15, null], 
+        [ null, 16, null, 17, null, 18, null, 19], 
+        [ 20, null, 21, null, 22, null, 23, null], 
+        ];
+    turn = 1; // Black Starts
+    blackScore = 12;
+    redScore = 12;
+    selectedPiece = {
+        pieceId: -1,
+        pieceRow: -1,
+        pieceCol: -1,
+        king: false,
+        mvDiagUpLeft: false,
+        mvDiagUpRight: false,
+        jumpDiagUpLeft: false,
+        jumpDiagUpRight: false,
+        mvDiagDownLeft: false,
+        mvDiagDownRight: false,
+        jumpDiagDownLeft: false,
+        jumpDiagDownRight: false,
+    }
+    winner = null;
+    blackGraveyard = [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0]
+    ]
+    redGraveyard = [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0]
+    ]
+    render();
+};
+
+function render() {
+    // renderBoard();
+    renderMessage();
+    renderControls();
+};
+
+// function renderBoard() {
+//     board.forEach(function(rowArr, rowIdx) {
+//         rowArr.forEach(function(cellVal, colIdx) {
+//             const squareEl = document.getElementById(`r${rowIdx}c${colIdx}`);
+//             squareEl.innerHTML = COLORS[cellVal].piece;         
+//         });
+//     });
+// };
+
+function renderMessage() {
+    if (winner) {
+        messageEl.innerHTML = `<span style="color: ${COLORS[winner].color}">${COLORS[winner].color} Wins!</span>`;
+    } else {
+        messageEl.innerHTML = `<span style="color: ${COLORS[turn].color}">${COLORS[turn].color}'s Turn</span>`;
+    }
+};
+
+function renderControls() {
+    playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
+};
 
 function addEventListenersOnPieces() {
     if (turn === 1) {
@@ -131,24 +198,24 @@ function addEventListenersOnPieces() {
     }
 }
 
-function getPlayerPieces() {
+function getPlayerPieces(evt) {
     if (turn === 1) {
-        playerPieces = redPieceEls;
-    } else {
         playerPieces = blackPieceEls;
+    } else {
+        playerPieces = redPieceEls;
     }
     removeSquareOnclicks();
-    removeSelectionBorders();
+    removeSelectionBorders(evt);
 }
 
 function removeSquareOnclicks() { // Note: Onclick attribute will be used on the squares instead of addEventListener, as these will need to stay dynamic 
     squareEls.forEach(square => square.removeAttribute('onclick'));
 }
 
-function removeSelectionBorders() {
+function removeSelectionBorders(evt) {
     playerPieces.forEach(piece => piece.style.border = '')
     resetSelectedPieceProperties();
-    getSelectedPiece();
+    getSelectedPiece(evt);
 }
 
 function resetSelectedPieceProperties() {
@@ -164,7 +231,7 @@ function resetSelectedPieceProperties() {
         selectedPiece.jumpDiagDownRight = false;
 }
 
-function getSelectedPiece() {
+function getSelectedPiece(evt) {
     selectedPiece.pieceId = parseInt(evt.target.id);
     selectedPiece.pieceRow = board.findIndex((row) => row.includes(selectedPiece.pieceId) === true);
     selectedPiece.pieceCol = board[selectedPiece.pieceRow].findIndex((col) => col === selectedPiece.pieceId);
@@ -194,41 +261,42 @@ function getAvailMoves() {
     if (selectedPiece.mvDiagUpLeft || selectedPiece.mvDiagUpRight || selectedPiece.jumpDiagUpLeft || selectedPiece.jumpDiagUpRight || selectedPiece.mvDiagDownLeft 
         || selectedPiece.mvDiagDownRight || selectedPiece.jumpDiagDownLeft || selectedPiece.jumpDiagDownRight) {
             document.getElementById(selectedPiece.pieceId).style.border = '0.25vmin solid blue';
+            createDestinationClicks()
     } else return; 
 }
 
 function getAvailDiagMoves() {
     if (selectedPiece.king) {
         if (board[up][left] === null
-            && left >= firstColNumn
-            && up <= topRowNum) {
+            && left >= firstColNum
+            && up >= topRowNum) {
                 selectedPiece.mvDiagUpLeft = true; 
         }
         if (board[up][right] === null
             && right <= lastColNum
-            && up <= topRowNum) {
+            && up >= topRowNum) {
                 selectedPiece.mvDiagUpRight = true;
         }
         if (board[down][left] === null
             && left >= firstColNum
-            && down >= botRowNum) {
+            && down <= botRowNum) {
                 selectedPiece.mvDiagDownLeft = true;
         }
         if (board[down][right] === null
             && right <= lastColNum
-            && down >= botRowNum) {
+            && down <= botRowNum) {
                 selectedPiece.mvDiagDownRight = true;
         }
     } else {
         if (turn === 1) {
-            if (board[up][right] === null
-                && right <= lastColNum
-                && up <= topRowNum) {
-                    selectedPiece.mvDiagUpRight = true;
+            if (board[up][left] === null
+                && left >= firstColNum
+                && up >= topRowNum) {
+                    selectedPiece.mvDiagUpLeft = true;
             }
             if (board[up][right] === null
                 && right <= lastColNum
-                && up <= topRowNum) {
+                && up >= topRowNum) {
                     selectedPiece.mvDiagUpRight = true;
             }            
             selectedPiece.mvDiagDownLeft = false;
@@ -238,12 +306,12 @@ function getAvailDiagMoves() {
             selectedPiece.mvDiagUpRight = true;
             if (board[down][left] === null
                 && left >= firstColNum
-                && down >= botRowNum) {
+                && down <= botRowNum) {
                     selectedPiece.mvDiagDownLeft = true;
             }
             if (board[down][right] === null
                 && right <= lastColNum
-                && down >= botRowNum) {
+                && down <= botRowNum) {
                     selectedPiece.mvDiagDownRight = true;
             }
         }
@@ -252,52 +320,60 @@ function getAvailDiagMoves() {
 
 function getAvailJumpMoves() {
     if (turn === 1) { // Black perspective
-        if (board[twoUp][twoLeft] === null 
+        if (board[twoUp][twoLeft] === null
+            && board[up][left] !== null 
             && board[up][left] <= 11 // pieces 0-11 belong to Red (can jump over them)
-            && twoUp <= topRowNum
+            && twoUp >= topRowNum
             && twoLeft >= firstColNum) {
                 selectedPiece.jumpDiagUpLeft = true;
         }
         if (board[twoUp][twoRight] === null
+            && board[up][right] !== null 
             && board[up][right] <= 11
-            && twoUp <= topRowNum
+            && twoUp >= topRowNum
             && twoRight <= lastColNum) {
                 selectedPiece.jumpDiagUpRight = true;
         }
         if (board[twoDown][twoLeft] === null
+            && board[down][left] !== null 
             && board[down][left] <= 11
-            && twoDown >= botRowNum
+            && twoDown <= botRowNum
             && twoLeft >= firstColNum) {
                 selectedPiece.jumpDiagDownLeft = true;
         }
         if (board[twoDown][twoRight] === null
+            && board[down][right] !== null 
             && board[down][right] <= 11
-            && twoDown >= botRowNum
+            && twoDown <= botRowNum
             && twoRight <= lastColNum) {
                 selectedPiece.jumpDiagDownRight = true;
         }
     } else {// Red perspective
         if (board[twoUp][twoLeft] === null 
+            && board[up][left] !== null 
             && board[up][left] >= 12 // pieces 12-23 belong to Black (can jump over them)
-            && twoUp <= topRowNum
+            && twoUp >= topRowNum
             && twoLeft >= firstColNum) {
                 selectedPiece.jumpDiagUpLeft = true;
         }
         if (board[twoUp][twoRight] === null
+            && board[up][right] !== null 
             && board[up][right] >= 12
-            && twoUp <= topRowNum
+            && twoUp >= topRowNum
             && twoRight <= lastColNum) {
                 selectedPiece.jumpDiagUpRight = true;
         }
         if (board[twoDown][twoLeft] === null
+            && board[down][left] !== null 
             && board[down][left] >= 12
-            && twoDown >= botRowNum
+            && twoDown <= botRowNum
             && twoLeft >= firstColNum) {
                 selectedPiece.jumpDiagDownLeft = true;
         }
         if (board[twoDown][twoRight] === null
+            && board[down][right] !== null 
             && board[down][right] >= 12
-            && twoDown >= botRowNum
+            && twoDown <= botRowNum
             && twoRight <= lastColNum) {
                 selectedPiece.jumpDiagDownRight = true;
         }
@@ -305,28 +381,28 @@ function getAvailJumpMoves() {
 };
 
 function createDestinationClicks() { // onclick attributes used instead of addEvent listener, as these need to be dynamic
-    if (mvDiagUpLeft) {
+    if (selectedPiece.mvDiagUpLeft) {
         document.getElementById(`r${up}c${left}`).setAttribute('onclick', 'movePiece(-1, -1)');
     }
-    if (mvDiagUpRight) {
+    if (selectedPiece.mvDiagUpRight) {
         document.getElementById(`r${up}c${right}`).setAttribute('onclick', 'movePiece(-1, 1)');
     }
-    if (jumpDiagUpLeft) {
+    if (selectedPiece.jumpDiagUpLeft) {
         document.getElementById(`r${twoUp}c${twoLeft}`).setAttribute('onclick', 'movePiece(-2, -2)');
     }
-    if (jumpDiagUpRight) {
+    if (selectedPiece.jumpDiagUpRight) {
         document.getElementById(`r${twoUp}c${twoRight}`).setAttribute('onclick', 'movePiece(-2, 2)');
     }
-    if (mvDiagDownLeft) {
+    if (selectedPiece.mvDiagDownLeft) {
         document.getElementById(`r${down}c${left}`).setAttribute('onclick', 'movePiece(1, -1)');
     }
-    if (mvDiagDownRight) {
+    if (selectedPiece.mvDiagDownRight) {
         document.getElementById(`r${down}c${right}`).setAttribute('onclick', 'movePiece(1, 1)');
     }
-    if (jumpDiagDownLeft) {
+    if (selectedPiece.jumpDiagDownLeft) {
         document.getElementById(`r${twoDown}c${twoLeft}`).setAttribute('onclick', 'movePiece(2, -2)');
     }
-    if (jumpDiagDownRight) {
+    if (selectedPiece.jumpDiagDownRight) {
         document.getElementById(`r${twoDown}c${twoRight}`).setAttribute('onclick', 'movePiece(2, 2)');
     }
 }
@@ -335,7 +411,7 @@ function movePiece(rowOffset, colOffset) {
     vertMove = selectedPiece.pieceRow + rowOffset;
     horizMove = selectedPiece.pieceCol + colOffset;
     document.getElementById(selectedPiece.pieceId).remove();
-    document.getElementById(`r${selectedPiece.pieceRow}c${horizMove}`).innerHTML = '';
+    document.getElementById(`r${selectedPiece.pieceRow}c${selectedPiece.pieceCol}`).innerHTML = '';
     if (turn === 1) {
         if (selectedPiece.king) {
             document.getElementById(`r${vertMove}c${horizMove}`).innerHTML = `<span class="black-piece king" id="${selectedPiece.pieceId}"></p>`;
@@ -357,9 +433,9 @@ function movePiece(rowOffset, colOffset) {
     let colOfPiece = selectedPiece.pieceCol; // assigned to variable, as the function doesnt work with the object properties passed through directly
     if ((rowOffset === -2 && colOffset === -2) || (rowOffset === -2 && colOffset === 2)
     || (rowOffset === 2 && colOffset === -2) || (rowOffset === 2 && colOffset === 2)) {
-        changeGameState()
+        changeGameState(selectedPiece.pieceRow, selectedPiece.pieceCol, vertMove, horizMove, selectedPiece.pieceRow + rowOffset/2, selectedPiece.pieceCol + colOffset/2);
     } else {
-        changeGameState()   
+        changeGameState(selectedPiece.pieceRow, selectedPiece.pieceCol, vertMove, horizMove)   
     }
 }
 
@@ -402,6 +478,8 @@ function checkWinner() {
     if (redScore === 0) {winner = -1};
     nextTurn();
 }
+
+function nextTurn() {turn *= -1};
 
 addEventListenersOnPieces()
 
@@ -449,243 +527,9 @@ addEventListenersOnPieces()
 
 
 
-function handleClick(evt) {
-    let onSquareRow = parseInt(evt.target.parentElement.id.substr(1,1));
-    let onSquareCol = parseInt(evt.target.parentElement.id.substr(3,3));
-    //Guard
-    if (board[onSquareRow][onSquareCol] !== turn) return;
-    // Otherwise...
-    console.log(evt.t)
-    console.log(board[onSquareRow][onSquareCol])
-    getAvailDiagMoves(onSquareRow, onSquareCol);
-    
 
-    
-    
-};
 
 
 
 
 
-function getAvailMoves(evt) {
-    
-}
-
-
-function getAvailJumpMoves(evt) { 
-
-};
-
-function countAdjacent(rowIdx, colIdx, colOffset, rowOffset) {
-
-};
-
-function nextTurn(evt) {
-    turn *= -1;
-};
-
-function init() {
-    board = [
-        [ null, 0, null, 1, null, 2, null, 3],
-        [ 4, null, 5, null, 6, null, 7, null], 
-        [ null, 8, null, 9, null, 10, null, 11], 
-        [null, null, null, null, null, null, null, null], 
-        [null, null, null, null, null, null, null, null], 
-        [ 12, null, 13, null, 14, null, 15, null], 
-        [ null, 16, null, 17, null, 18, null, 19], 
-        [ 20, null, 21, null, 22, null, 23, null], 
-        ];
-    turn = 1; // Black Starts
-    blackScore = 12;
-    redScore = 12;
-    selectedPiece = {
-        pieceId: -1,
-        pieceRow: -1,
-        pieceCol: -1,
-        king: false,
-        mvDiagUpLeft: false,
-        mvDiagUpRight: false,
-        jumpDiagUpLeft: false,
-        jumpDiagUpRight: false,
-        mvDiagDownLeft: false,
-        mvDiagDownRight: false,
-        jumpDiagDownLeft: false,
-        jumpDiagDownRight: false,
-    }
-    winner = null;
-    afterMove = null;
-    blackGraveyard = [
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0]
-    ]
-    redGraveyard = [
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0]
-    ]
-    // selectedPiece = board[7][0]
-    render();
-};
-
-function render() {
-    renderBoard();
-    renderMessage();
-    renderControls();
-};
-
-function renderBoard() {
-    board.forEach(function(rowArr, rowIdx) {
-        rowArr.forEach(function(cellVal, colIdx) {
-            const squareEl = document.getElementById(`r${rowIdx}c${colIdx}`);
-            squareEl.innerHTML = COLORS[cellVal].piece;         
-        });
-    });
-};
-
-function renderMessage() {
-    if (winner === 'T') {
-        messageEl.innerHTML = '<span style="color: #EBB64A">It\'s a Tie!!!</span>';
-    } else if (winner) {
-        messageEl.innerHTML = `<span style="color: ${COLORS[winner].color}">${COLORS[winner].color} Wins!</span>`;
-    } else {
-        messageEl.innerHTML = `<span style="color: ${COLORS[turn].color}">${COLORS[turn].color}'s Turn</span>`;
-    }
-};
-
-function renderControls() {
-    playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
-    endTurnBtnEl.style.visibility = afterMove ? 'visible' : 'hidden';
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function handleClick(evt) {
-//     // Guards:
-//     if (evt.target.className !== "black-piece" && evt.target.className !== "red-piece") return; // Need to click on checker piece
-//     if (turn === 1 && evt.target.className !== "black-piece") return; // Black player cant pick a red piece
-//     if (turn === -1 && evt.target.className !== "red-piece") return; // Red player can't pick a black piece
-//     // Otherwise...
-//     getAvailDiagMoves(evt);
-//     console.log(evt.target.parentElement.id.substr(1,1));
-//     console.log(onSquareRow);
-// };
-
-// function getAvailDiagMoves(evt) {
-//     const onSquareRow = evt.target.parentElement.id.substr(1,1);
-//     const onSquareCol = evt.target.parentElement.id.substr(3,3);
-//     const onSquare = board[onSquareRow][onSquareCol];
-//     // if black:
-//     if (evt.target.className === "black-piece") {
-//         mvDiagUpLeft = board[onSquareRow - 1][onSquareCol - 1] === 0 ? true : false; // black can move up diagonal left if true
-//         mvDiagUpRight = board[onSquareRow - 1][onSquareCol + 1] === 0 ? true : false; // black can move up diagonal right if true
-//     };
-//     // if red:
-//     if (evt.target.className === "red-piece") {
-//         mvDiagDownLeft = countAdjacent(onSquareRow, onSquareCol, 1, -1) === 0 ? true : false; // red can move down diagonal left if true
-//         mvDiagDownRight = countAdjacent(onSquareRow, onSquareCol, 1, 1) === 0 ? true : false; // red can move down diagonal right if true
-//     };
-// };
-
-
-
-
-
-
-
-
-// function handleClick(evt) {
-//     // let blackPiecesEl = [...document.querySelectorAll('.black-piece')]
-//     // let redPiecesEl = [...document.querySelectorAll('.red-piece')]
-//     let row = parseInt(evt.target.parentElement.id.substr(1,1));
-//     let col = parseInt(evt.target.parentElement.id.substr(3,3));
-//     if (board[row][col] !== turn) return;
-//     if (selectedPiece) {
-//         getAvailDiagMoves(row, col);
-//     }
-    
-
-//     // Otherwise...
-    
-//     console.log(mvDiagDownLeft);
-// };
-
-// function getAvailDiagMoves(row, col) {
-// console.log(row - 1, col + 1)
-//     const onSquare = board[row][col];
-//     // if black:
-//     if (turn === 1) {
-//         if (row - 1 >= 0) {
-//             mvDiagUpLeft = (col - 1 >= 0 && board[row - 1][col - 1] === 0) ? true : false;
-//             mvDiagUpRight = (col + 1 <= board[0].length - 1 && board[row - 1][col + 1] === 0) ? true : false;
-//         }
-//     };
-//     console.log(mvDiagUpLeft, mvDiagUpRight) ;
-//     // if red:
-//     // if (turn === -1 && redPieceNumber !== -1) {
-//     //     mvDiagDownLeft = countAdjacent(onSquareRow, onSquareCol, 1, -1) === 0 ? true : false; // red can move down diagonal left if true
-//     //     mvDiagDownRight = countAdjacent(onSquareRow, onSquareCol, 1, 1) === 0 ? true : false; // red can move down diagonal right if true
-//     // };
-// };
