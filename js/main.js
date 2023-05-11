@@ -177,14 +177,7 @@ function renderControls() {
     playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
 };
 
-function addEventListenersOnPieces() {
-    if (turn === 1) {
-        blackPieceEls.forEach(blackPiece => blackPiece.addEventListener('click', getPlayerPieces))
-    } 
-    if (turn === -1) {
-        redPieceEls.forEach(redPiece => redPiece.addEventListener('click', getPlayerPieces))
-    }
-}
+
 
 function getPlayerPieces(evt) {
     if (turn === 1) {
@@ -451,28 +444,25 @@ function changeGameState(row, col, changedRow, changedCol, pieceToGraveyardRow, 
     resetSelectedPieceProperties();
     removeSquareOnclicks();
     checkWinner();
-    removePieceOnclicks();
-    addEventListenersOnPieces();
+    turn *= -1;
+    updateListenersOnPieces();
+    render();
 }
 
-function removePieceOnclicks() {
+function updateListenersOnPieces() {
     if (turn === 1) {
         redPieceEls.forEach(redPiece => redPiece.removeEventListener('click', getPlayerPieces));
+        blackPieceEls.forEach(blackPiece => blackPiece.addEventListener('click', getPlayerPieces))
     } 
     if (turn === -1) {
         blackPieceEls.forEach(blackPiece => blackPiece.removeEventListener('click', getPlayerPieces));
+        redPieceEls.forEach(redPiece => redPiece.addEventListener('click', getPlayerPieces))
     }
 }
+
 
 function checkWinner() {
     if (blackScore === 0) {winner = 1};
     if (redScore === 0) {winner = -1};
-    nextTurn();
-    render();
 }
 
-function nextTurn() {
-    turn *= -1;
-};
-
-addEventListenersOnPieces()
