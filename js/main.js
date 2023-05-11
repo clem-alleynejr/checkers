@@ -81,10 +81,10 @@
     }
 
     // hard coded, as the board will always be 8x8:
-    const firstColNum = 0 
-    const lastColNum = 7
-    const topRowNum = 0
-    const botRowNum = 7
+    const firstColNum = 0; 
+    const lastColNum = 7;
+    const topRowNum = 0;
+    const botRowNum = 7;
 
 /*----- state variables -----*/
 let board;
@@ -107,9 +107,6 @@ const playAgainBtnEl = document.getElementById('play-again')
 const endTurnBtnEl = document.getElementById('end-turn') 
 
 /*----- event listeners -----*/
-// document.getElementById('board').addEventListener('click', handleClick);
-// document.getElementById('play-again').addEventListener('click', init);
-// document.getElementById('end-turn').addEventListener('click', nextTurn);
 
 
 /*----- functions -----*/
@@ -164,19 +161,9 @@ function init() {
 };
 
 function render() {
-    // renderBoard();
     renderMessage();
     renderControls();
 };
-
-// function renderBoard() {
-//     board.forEach(function(rowArr, rowIdx) {
-//         rowArr.forEach(function(cellVal, colIdx) {
-//             const squareEl = document.getElementById(`r${rowIdx}c${colIdx}`);
-//             squareEl.innerHTML = COLORS[cellVal].piece;         
-//         });
-//     });
-// };
 
 function renderMessage() {
     if (winner) {
@@ -193,7 +180,8 @@ function renderControls() {
 function addEventListenersOnPieces() {
     if (turn === 1) {
         blackPieceEls.forEach(blackPiece => blackPiece.addEventListener('click', getPlayerPieces))
-    } else {
+    } 
+    if (turn === -1) {
         redPieceEls.forEach(redPiece => redPiece.addEventListener('click', getPlayerPieces))
     }
 }
@@ -258,6 +246,7 @@ function getAvailMoves() {
     twoRight = selectedPiece.pieceCol + 2;
     getAvailDiagMoves();
     getAvailJumpMoves();
+    console.log();
     if (selectedPiece.mvDiagUpLeft || selectedPiece.mvDiagUpRight || selectedPiece.jumpDiagUpLeft || selectedPiece.jumpDiagUpRight || selectedPiece.mvDiagDownLeft 
         || selectedPiece.mvDiagDownRight || selectedPiece.jumpDiagDownLeft || selectedPiece.jumpDiagDownRight) {
             document.getElementById(selectedPiece.pieceId).style.border = '0.25vmin solid blue';
@@ -320,61 +309,61 @@ function getAvailDiagMoves() {
 
 function getAvailJumpMoves() {
     if (turn === 1) { // Black perspective
-        if (board[twoUp][twoLeft] === null
+        if (twoUp >= topRowNum
+            && twoLeft >= firstColNum
+            && board[twoUp][twoLeft] === null
             && board[up][left] !== null 
-            && board[up][left] <= 11 // pieces 0-11 belong to Red (can jump over them)
-            && twoUp >= topRowNum
-            && twoLeft >= firstColNum) {
+            && board[up][left] <= 11) { // pieces 0-11 belong to Red (can jump over them)
                 selectedPiece.jumpDiagUpLeft = true;
         }
-        if (board[twoUp][twoRight] === null
+        if (twoUp >= topRowNum
+            && twoRight <= lastColNum
+            && board[twoUp][twoRight] === null
             && board[up][right] !== null 
-            && board[up][right] <= 11
-            && twoUp >= topRowNum
-            && twoRight <= lastColNum) {
+            && board[up][right] <= 11) {
                 selectedPiece.jumpDiagUpRight = true;
         }
-        if (board[twoDown][twoLeft] === null
+        if (twoDown <= botRowNum
+            && twoLeft >= firstColNum
+            && board[twoDown][twoLeft] === null
             && board[down][left] !== null 
-            && board[down][left] <= 11
-            && twoDown <= botRowNum
-            && twoLeft >= firstColNum) {
+            && board[down][left] <= 11) {
                 selectedPiece.jumpDiagDownLeft = true;
         }
-        if (board[twoDown][twoRight] === null
+        if (twoDown <= botRowNum
+            && twoRight <= lastColNum
+            && board[twoDown][twoRight] === null
             && board[down][right] !== null 
-            && board[down][right] <= 11
-            && twoDown <= botRowNum
-            && twoRight <= lastColNum) {
+            && board[down][right] <= 11) {
                 selectedPiece.jumpDiagDownRight = true;
         }
     } else {// Red perspective
-        if (board[twoUp][twoLeft] === null 
+        if (twoUp >= topRowNum
+            && twoLeft >= firstColNum
+            && board[twoUp][twoLeft] === null 
             && board[up][left] !== null 
-            && board[up][left] >= 12 // pieces 12-23 belong to Black (can jump over them)
-            && twoUp >= topRowNum
-            && twoLeft >= firstColNum) {
+            && board[up][left] >= 12) { // pieces 12-23 belong to Black (can jump over them)
                 selectedPiece.jumpDiagUpLeft = true;
         }
-        if (board[twoUp][twoRight] === null
+        if (twoUp >= topRowNum
+            && twoRight <= lastColNum
+            && board[twoUp][twoRight] === null
             && board[up][right] !== null 
-            && board[up][right] >= 12
-            && twoUp >= topRowNum
-            && twoRight <= lastColNum) {
+            && board[up][right] >= 12) {
                 selectedPiece.jumpDiagUpRight = true;
         }
-        if (board[twoDown][twoLeft] === null
+        if (twoDown <= botRowNum
+            && twoLeft >= firstColNum
+            && board[twoDown][twoLeft] === null
             && board[down][left] !== null 
-            && board[down][left] >= 12
-            && twoDown <= botRowNum
-            && twoLeft >= firstColNum) {
+            && board[down][left] >= 12) {
                 selectedPiece.jumpDiagDownLeft = true;
         }
-        if (board[twoDown][twoRight] === null
+        if (twoDown <= botRowNum
+            && twoRight <= lastColNum
+            && board[twoDown][twoRight] === null
             && board[down][right] !== null 
-            && board[down][right] >= 12
-            && twoDown <= botRowNum
-            && twoRight <= lastColNum) {
+            && board[down][right] >= 12) {
                 selectedPiece.jumpDiagDownRight = true;
         }
     }
@@ -433,7 +422,7 @@ function movePiece(rowOffset, colOffset) {
     let colOfPiece = selectedPiece.pieceCol; // assigned to variable, as the function doesnt work with the object properties passed through directly
     if ((rowOffset === -2 && colOffset === -2) || (rowOffset === -2 && colOffset === 2)
     || (rowOffset === 2 && colOffset === -2) || (rowOffset === 2 && colOffset === 2)) {
-        changeGameState(selectedPiece.pieceRow, selectedPiece.pieceCol, vertMove, horizMove, selectedPiece.pieceRow + rowOffset/2, selectedPiece.pieceCol + colOffset/2);
+        changeGameState(rowOfPiece, colOfPiece, vertMove, horizMove, (selectedPiece.pieceRow + (rowOffset/2)), (selectedPiece.pieceCol + (colOffset/2)));
     } else {
         changeGameState(selectedPiece.pieceRow, selectedPiece.pieceCol, vertMove, horizMove)   
     }
@@ -461,75 +450,29 @@ function changeGameState(row, col, changedRow, changedCol, pieceToGraveyardRow, 
     }
     resetSelectedPieceProperties();
     removeSquareOnclicks();
+    checkWinner();
     removePieceOnclicks();
+    addEventListenersOnPieces();
 }
 
 function removePieceOnclicks() {
     if (turn === 1) {
         redPieceEls.forEach(redPiece => redPiece.removeEventListener('click', getPlayerPieces));
-    } else {
+    } 
+    if (turn === -1) {
         blackPieceEls.forEach(blackPiece => blackPiece.removeEventListener('click', getPlayerPieces));
     }
-    checkWinner();
 }
 
 function checkWinner() {
     if (blackScore === 0) {winner = 1};
     if (redScore === 0) {winner = -1};
     nextTurn();
+    render();
 }
 
-function nextTurn() {turn *= -1};
+function nextTurn() {
+    turn *= -1;
+};
 
 addEventListenersOnPieces()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
