@@ -137,11 +137,11 @@ function getPlayerPieces() {
     } else {
         playerPieces = blackPieceEls;
     }
-    removeAllOnclicks();
+    removeSquareOnclicks();
     removeSelectionBorders();
 }
 
-function removeAllOnclicks() { // Note: Onclick attribute will be used on the squares instead of addEventListener, as these will need to stay dynamic 
+function removeSquareOnclicks() { // Note: Onclick attribute will be used on the squares instead of addEventListener, as these will need to stay dynamic 
     squareEls.forEach(square => square.removeAttribute('onclick'));
 }
 
@@ -250,7 +250,6 @@ function getAvailDiagMoves() {
     }
 };
 
-
 function getAvailJumpMoves() {
     if (turn === 1) { // Black perspective
         if (board[twoUp][twoLeft] === null 
@@ -358,11 +357,50 @@ function movePiece(rowOffset, colOffset) {
     let colOfPiece = selectedPiece.pieceCol; // assigned to variable, as the function doesnt work with the object properties passed through directly
     if ((rowOffset === -2 && colOffset === -2) || (rowOffset === -2 && colOffset === 2)
     || (rowOffset === 2 && colOffset === -2) || (rowOffset === 2 && colOffset === 2)) {
-        changeBoardState()
+        changeGameState()
     } else {
-        changeBoardState()   
+        changeGameState()   
     }
 }
+
+function changeGameState(row, col, changedRow, changedCol, pieceToGraveyardRow, pieceToGraveyardCol) {
+    board[row][col] = null;
+    board[changedRow][changedCol] = parseInt(selectedPiece.pieceId);
+    if (turn === 1 && selectedPiece.pieceId >= 12 && changedRow === topRowNum) {
+        document.getElementById(selectedPiece.pieceId).classList.add('king');
+    }
+    if (turn === -1 && selectedPiece.pieceId <= 11 && changedRow === botRowNum) {
+        document.getElementById(selectedPiece.pieceId).classList.add('king');
+    }
+    if (pieceToGraveyardRow && pieceToGraveyardCol) {
+        board[pieceToGraveyardRow][pieceToGraveyardCol] = null;
+        if (turn === 1 && selectedPiece.pieceId >= 12) {
+            squareEls[(0 * pieceToGraveyardRow) + (1 * pieceToGraveyardCol)].innerHTML = "";
+            redScore--
+        }
+        if (turn === -1 && selectedPiece.pieceId <= 11) {
+            squareEls[(0 * pieceToGraveyardRow) + (1 * pieceToGraveyardCol)].innerHTML = "";
+            blackScore--
+        }
+    }
+    resetSelectedPieceProperties();
+    removeSquareOnclicks();
+    removePieceOnclicks();
+}
+
+function removePieceOnclicks() {
+    if (turn === 1) {
+        
+    }
+}
+
+
+
+
+
+
+
+
 
 
 
