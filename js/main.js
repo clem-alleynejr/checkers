@@ -390,9 +390,20 @@ function changeGameState(row, col, changedRow, changedCol, pieceToGraveyardRow, 
 
 function removePieceOnclicks() {
     if (turn === 1) {
-        
+        redPieceEls.forEach(redPiece => redPiece.removeEventListener('click', getPlayerPieces));
+    } else {
+        blackPieceEls.forEach(blackPiece => blackPiece.removeEventListener('click', getPlayerPieces));
     }
+    checkWinner();
 }
+
+function checkWinner() {
+    if (blackScore === 0) {winner = 1};
+    if (redScore === 0) {winner = -1};
+    nextTurn();
+}
+
+addEventListenersOnPieces()
 
 
 
