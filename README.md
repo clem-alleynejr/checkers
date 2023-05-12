@@ -2,7 +2,7 @@
 
 (Not Chess)
 
-# Screenshot
+# Screenshots
 
 <img src="Screenshots/Starting-Screen.png" width ="500vmin">
 <img src="Screenshots/Mid-Game.png" width ="500vmin">
