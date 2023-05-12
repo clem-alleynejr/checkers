@@ -343,12 +343,10 @@ function handleMovePiece(evt) {
         row = parseInt(evt.target.id[1]);
         col = parseInt(evt.target.id[3]);
     }
-
     for (let i = 0; i < selectedPiece.moveCoordinates.length; i++) {
         let pieceMoveRow = selectedPiece.moveCoordinates[i][0];
         let pieceMoveCol = selectedPiece.moveCoordinates[i][1];
         let jump = false;
-
         if (pieceMoveRow === parseInt(row) && pieceMoveCol === parseInt(col)) {
             if (Math.abs(selectedPiece.coordinates[0] - pieceMoveRow) + Math.abs(selectedPiece.coordinates[1] - pieceMoveCol) === 4) jump = true;
             if (jump) {
