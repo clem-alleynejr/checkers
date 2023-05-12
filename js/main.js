@@ -1,73 +1,73 @@
 //CHECKERS
 
 // Initial Setup:
-    
-    // Board will be an 8 x 8 grid (64 total squares), with the squares 
-    // alternating between gold and white horizontally and vertically.
-    // Two players - each on opposite ends of the board. from any of the
-    // players' perspective, there should be a white square at the top 
-    // left, a gold square at the top right, a gold square at the bottom
-    // left, and a white square at the bottom right.
-    
-    // Each player starts with 12 pieces (checkers) each. Players' pieces are 
-    // positioned on opposite ends of the board on the gold squares of 
-    // the first three rows of their respective sides.
 
-    // Game will initialize with 'red' starting first.
+// Board will be an 8 x 8 grid (64 total squares), with the squares 
+// alternating between gold and white horizontally and vertically.
+// Two players - each on opposite ends of the board. from any of the
+// players' perspective, there should be a white square at the top 
+// left, a gold square at the top right, a gold square at the bottom
+// left, and a white square at the bottom right.
+
+// Each player starts with 12 pieces (checkers) each. Players' pieces are 
+// positioned on opposite ends of the board on the gold squares of 
+// the first three rows of their respective sides.
+
+// Game will initialize with 'red' starting first.
 
 
 // Rules:
 
-    // Checkers can only move diagonally on gold squares.
-        // NOTE: Checkers can "jump" over opponent checkers diagonally. At 
-        // which point, that "jumped" opponent checker will be considered 
-        // captured and removed from the board.
+// Checkers can only move diagonally on gold squares.
+// NOTE: Checkers can "jump" over opponent checkers diagonally. At 
+// which point, that "jumped" opponent checker will be considered 
+// captured and removed from the board.
 
-    // Checkers can only move towards the opponent (i.e they cannot move
-    // backwards)
-        // NOTE: Checkers can become "kings" if they reach the last row on 
-        // the opposing side, at which point they will gain the ability to
-        // move backwards.
+// Checkers can only move towards the opponent (i.e they cannot move
+// backwards)
+// NOTE: Checkers can become "kings" if they reach the last row on 
+// the opposing side, at which point they will gain the ability to
+// move backwards.
 
-    // The goal is the capture all the checkers of the opponent.
+// The goal is the capture all the checkers of the opponent.
 
 
 // Gameplay:
 
-    // Player chooses one of their checkers too move.
-        // If there are no possible moves for the player (i.e opponents checkers
-        // block any possible move), the player loses and the game ends.
+// Player chooses one of their checkers too move.
+// If there are no possible moves for the player (i.e opponents checkers
+// block any possible move), the player loses and the game ends.
 
-    // Player chooses square to which chosen checker will move to. (Needs to
-    // be a legal move):
+// Player chooses square to which chosen checker will move to. (Needs to
+// be a legal move):
 
-        // If this move is a "jump":
-            // move player's checker to it's new square,
-            // remove the "jumped" opponents checker and into graveyard (side of board),
-            // if move gets checker onto last row on the opposing side AND 
-            // checker isn't already a king, "king" the checker.
-            // if opponent is out of checker's, player wins and game ends.
-            // while there are other possible "jumps" to make, prompt player
-            // to either:
-                // End Turn OR
-                // make another possible "jump":
-                    // move player's checker to it's new square,
-                    // remove the "jumped" opponents checker and into graveyard (side of board),
-                    // if move gets checker onto last row on the opposing side AND 
-                    // checker isn't already a king, "king" the checker.
-                    // if opponent is out of checker's, player wins and game ends.
-            // Player's turn ends if:
-                // there are no longer any available "jumps" OR
-                // Player voluntarily ends their turn
+// If this move is a "jump":
+// move player's checker to it's new square,
+// remove the "jumped" opponents checker and into graveyard (side of board),
+// if move gets checker onto last row on the opposing side AND 
+// checker isn't already a king, "king" the checker.
+// if opponent is out of checker's, player wins and game ends.
+// while there are other possible "jumps" to make, prompt player
+// to either:
+// End Turn OR
+// make another possible "jump":
+// move player's checker to it's new square,
+// remove the "jumped" opponents checker and into graveyard (side of board),
+// if move gets checker onto last row on the opposing side AND 
+// checker isn't already a king, "king" the checker.
+// if opponent is out of checker's, player wins and game ends.
+// Player's turn ends if:
+// there are no longer any available "jumps" OR
+// Player voluntarily ends their turn
 
-        // If this move is just a single square move diagonally, the player's 
-        // turn ends immediately after the move. 
-    
-    // It will now be the other player's turn.
+// If this move is just a single square move diagonally, the player's 
+// turn ends immediately after the move. 
 
-    // The process repeats until there is a winner.
+// It will now be the other player's turn.
 
-    
+// The process repeats until there is a winner.
+
+
 /*----- constants -----*/
 const SPAN = {
     'black': `<span class="black-piece"></span>`,
@@ -169,41 +169,36 @@ function render() {
     renderRedGraveYard();
     renderBlackGraveYard();
     if (winner) {
-        if (winner === 1) {messageEl.innerHTML = '<span style="color: black">BLACK WINS!</span>'};
-        if (winner === -1) {messageEl.innerHTML = '<span style="color: red">RED WINS!</span>'};
+        if (winner === 1) { messageEl.innerHTML = '<span style="color: black">BLACK WINS!</span>' };
+        if (winner === -1) { messageEl.innerHTML = '<span style="color: red">RED WINS!</span>' };
     } else {
-        if (turn === 1) {messageEl.innerHTML = '<span style="color: black">BLACK\'s TURN</span>'};
-        if (turn === -1) {messageEl.innerHTML = '<span style="color: red">RED\'s TURN</span>'};
+        if (turn === 1) { messageEl.innerHTML = '<span style="color: black">BLACK\'s TURN</span>' };
+        if (turn === -1) { messageEl.innerHTML = '<span style="color: red">RED\'s TURN</span>' };
     }
-    // winner ?
-    // messageEl.innerHTML = `<span style="color: ${COLORS[winner].color}">${COLORS[winner].color} Wins!</span>`
-    // :
-    // messageEl.innerHTML = `<span style="color: ${COLORS[turn].color}">${COLORS[turn].color}'s Turn</span>`
     playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
     changePieceEl.style.visibility = selectedPiece ? 'visible' : 'hidden';
 };
 
 function renderRedGraveYard() {
-        i = 0
-        redGraveyard.forEach(redGrave => {
-            redGraveyardEls[i].innerHTML = '<span class="red-piece"></span>'
-            i++
-        })
+    i = 0
+    redGraveyard.forEach(redGrave => {
+        redGraveyardEls[i].innerHTML = '<span class="red-piece"></span>'
+        i++
+    })
 };
 
 function renderBlackGraveYard() {
-        i = 0
-        blackGraveyard.forEach(blackGrave => {
-            blackGraveyardEls[i].innerHTML = '<span class="black-piece"></span>'
-            i++
-        })
+    i = 0
+    blackGraveyard.forEach(blackGrave => {
+        blackGraveyardEls[i].innerHTML = '<span class="black-piece"></span>'
+        i++
+    })
 };
 
 function renderBoard() {
     for (let r = 0; r < board.length; r++) {
         for (let c = 0; c < board[r].length; c++) {
             const sqEl = document.getElementById(`r${r}c${c}`);
-            // sqEl.style.border = 'none';
             if (board[r][c]) {
                 if (board[r][c].king && board[r][c].color === "red") {
                     sqEl.innerHTML = SPAN['redKing']
@@ -212,35 +207,11 @@ function renderBoard() {
                 } else {
                     sqEl.innerHTML = SPAN[board[r][c].color];
                 }
-                // if (board[r][c].king && board[r][c].color === "black") sqEl.classList.add('black-king')
             }
             if (!board[r][c]) sqEl.innerHTML = "";
         }
     }
 }
-
-
-function getPlayerPieces(evt) {
-    console.log(evt);
-    if (turn === 1) {
-        playerPieces = blackPieceEls;
-    } else {
-        playerPieces = redPieceEls;
-    }
-    removeSquareOnclicks();
-    removeSelectionBorders(evt);
-}
-
-function removeSquareOnclicks() { // Note: Onclick attribute will be used on the squares instead of addEventListener, as these will need to stay dynamic
-    squareEls.forEach(square => square.removeAttribute('onclick'));
-}
-
-function removeSelectionBorders(evt) {
-    playerPieces.forEach(piece => piece.style.border = '')
-    resetSelectedPieceProperties();
-    getSelectedPiece(evt);
-}
-
 
 function handleClick(evt) {
     let row, col;
@@ -257,18 +228,17 @@ function handleClick(evt) {
         !board[row][col].canMove ||
         board[row][col].moveCoordinates.length === 0 ||
         winner) return;
-        
-        selectedPiece = board[row][col];
-        selectedPiece.selected = true;
-        console.log(squareEls[parseInt(row*8) + parseInt(col)])
-        squareEls[parseInt(row*8) + parseInt(col)].style.border = '3px dotted green';
+
+    selectedPiece = board[row][col];
+    selectedPiece.selected = true;
+    console.log(squareEls[parseInt(row * 8) + parseInt(col)])
+    squareEls[parseInt(row * 8) + parseInt(col)].style.border = '3px dotted green';
     // winner = checkWinner();
     render()
 }
 
 function resetSelectedPiece(evt) {
     squareEls.forEach(SquareEl => SquareEl.style.border = '')
-    // document.querySelectorAll('#board > div:hover').style.border = '0.25vmin solid blue'
     selectedPiece = null;
     render();
 }
@@ -422,6 +392,6 @@ function checkWinner() {
     if (redScore === 0) { winner = 1 };
 }
 
-function resetGame () {
+function resetGame() {
     init();
 };
