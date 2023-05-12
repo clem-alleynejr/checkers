@@ -153,7 +153,7 @@ function init() {
     setBoard();
     getAvailMoves();
     render();
-};
+}
 
 function setBoard() {
     for (let r = 0; r < board.length; r++) {
@@ -177,7 +177,7 @@ function render() {
     }
     playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
     changePieceEl.style.visibility = selectedPiece ? 'visible' : 'hidden';
-};
+}
 
 function renderRedGraveYard() {
     i = 0
@@ -185,7 +185,7 @@ function renderRedGraveYard() {
         redGraveyardEls[i].innerHTML = '<span class="red-piece"></span>';
         i++;
     })
-};
+}
 
 function renderBlackGraveYard() {
     i = 0
@@ -193,7 +193,7 @@ function renderBlackGraveYard() {
         blackGraveyardEls[i].innerHTML = '<span class="black-piece"></span>';
         i++;
     })
-};
+}
 
 function renderBoard() {
     for (let r = 0; r < board.length; r++) {
@@ -389,4 +389,4 @@ function checkWinner() {
 
 function resetGame() {
     init();
-};
+}
