@@ -4,8 +4,9 @@
 
 # Screenshot
 
-<img src="url to your image on imgur">
-<img src="url to your image on imgur">
+<img src="Screenshots/Starting-Screen.png" width ="500vmin">
+<img src="Screenshots/Mid-Game.png" width ="500vmin">
+<img src="Screenshots/End-Game.png" width ="500vmin">
 
 # Technologies Used
 
