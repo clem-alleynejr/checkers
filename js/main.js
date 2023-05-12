@@ -44,14 +44,19 @@ const squareEls = document.querySelectorAll('#board > div')
 let blackPieceEls = document.querySelectorAll('span[class^="black"]')
 let redPieceEls = document.querySelectorAll('span[class^="red-piece"]')
 const messageEl = document.querySelector('main h1')
-const playAgainBtnEl = document.getElementById('play-again')
+const changePieceEl = document.getElementById('change-piece')
 const endTurnBtnEl = document.getElementById('end-turn')
 const boardEl = document.getElementById("board");
+const playAgainBtnEl = document.getElementById('play-again')
+const redGraveyardEls = document.querySelectorAll('#red-graveyard > div')
+const blackGraveyardEls = document.querySelectorAll('#black-graveyard > div')
 
 /*----- event listeners -----*/
 boardEl.addEventListener("click", function (evt) {
     selectedPiece ? handleMovePiece(evt) : handleClick(evt)
 });
+changePieceEl.addEventListener('click', resetSelectedPiece);
+playAgainBtnEl
 
 
 /*----- functions -----*/
@@ -73,8 +78,8 @@ function init() {
     redScore = 12;
     winner = null;
     selectedPiece = null;
-    blackGraveyard = []
-    redGraveyard = []
+    blackGraveyard = [];
+    redGraveyard = [];
     setBoard()
     getAvailMoves();
     render();
@@ -91,20 +96,45 @@ function setBoard() {
 
 function render() {
     renderBoard();
+    renderRedGraveYard();
+    renderBlackGraveYard();
+    if (winner) {
+        if (winner === 1) {messageEl.innerHTML = '<span style="color: black">BLACK WINS!</span>'};
+        if (winner === -1) {messageEl.innerHTML = '<span style="color: red">RED WINS!</span>'};
+    } else {
+        if (turn === 1) {messageEl.innerHTML = '<span style="color: black">BLACK\'s TURN</span>'};
+        if (turn === -1) {messageEl.innerHTML = '<span style="color: red">RED\'s TURN</span>'};
+    }
     // winner ?
     // messageEl.innerHTML = `<span style="color: ${COLORS[winner].color}">${COLORS[winner].color} Wins!</span>`
     // :
     // messageEl.innerHTML = `<span style="color: ${COLORS[turn].color}">${COLORS[turn].color}'s Turn</span>`
     playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
+    changePieceEl.style.visibility = selectedPiece ? 'visible' : 'hidden';
+};
+
+function renderRedGraveYard() {
+        i = 0
+        redGraveyard.forEach(redGrave => {
+            redGraveyardEls[i].innerHTML = '<span class="red-piece"></span>'
+            i++
+        })
+};
+
+function renderBlackGraveYard() {
+        i = 0
+        blackGraveyard.forEach(blackGrave => {
+            blackGraveyardEls[i].innerHTML = '<span class="black-piece"></span>'
+            i++
+        })
 };
 
 function renderBoard() {
     for (let r = 0; r < board.length; r++) {
         for (let c = 0; c < board[r].length; c++) {
             const sqEl = document.getElementById(`r${r}c${c}`);
-            sqEl.style.border = 'none';
+            // sqEl.style.border = 'none';
             if (board[r][c]) {
-                if (board[r][c].selected) sqEl.style.border = '3px dotted green';
                 if (board[r][c].king && board[r][c].color === "red") {
                     sqEl.innerHTML = SPAN['redKing']
                 } else if (board[r][c].king && board[r][c].color === "black") {
@@ -121,6 +151,7 @@ function renderBoard() {
 
 
 function getPlayerPieces(evt) {
+    console.log(evt);
     if (turn === 1) {
         playerPieces = blackPieceEls;
     } else {
@@ -142,7 +173,6 @@ function removeSelectionBorders(evt) {
 
 
 function handleClick(evt) {
-    
     let row, col;
     if (evt.target.tagName === "SPAN") {
         row = evt.target.parentElement.id[1];
@@ -151,22 +181,27 @@ function handleClick(evt) {
         row = evt.target.id[1];
         col = evt.target.id[3];
     }
-    
     getAvailMoves(row, col);
     if (!board[row][col] ||
         board[row][col].player !== turn ||
         !board[row][col].canMove ||
         board[row][col].moveCoordinates.length === 0 ||
         winner) return;
-
-    selectedPiece = board[row][col];
-    selectedPiece.selected = true;
-    console.log(selectedPiece)
+        
+        selectedPiece = board[row][col];
+        selectedPiece.selected = true;
+        console.log(squareEls[parseInt(row*8) + parseInt(col)])
+        squareEls[parseInt(row*8) + parseInt(col)].style.border = '3px dotted green';
     // winner = checkWinner();
     render()
-
 }
 
+function resetSelectedPiece(evt) {
+    squareEls.forEach(SquareEl => SquareEl.style.border = '')
+    // document.querySelectorAll('#board > div:hover').style.border = '0.25vmin solid blue'
+    selectedPiece = null;
+    render();
+}
 
 function getAvailMoves() {
     for (let r = 0; r < board.length; r++) {
@@ -282,11 +317,16 @@ function handleMovePiece(evt) {
                 removeRow = (selectedPiece.coordinates[0] - pieceMoveRow) / 2;
                 removeCol = (selectedPiece.coordinates[1] - pieceMoveCol) / 2;
                 console.log(removeRow + row, removeCol + col);
-
                 let lostPiece = board[row + removeRow][col + removeCol];
                 board[row + removeRow][col + removeCol] = null;
-                if (lostPiece.color === "red") redGraveyard.push(lostPiece);
-                if (lostPiece.color === "black") blackGraveyard.push(lostPiece);
+                if (lostPiece.color === "red") {
+                    redScore--;
+                    redGraveyard.push(lostPiece);
+                }
+                if (lostPiece.color === "black") {
+                    blackScore--;
+                    blackGraveyard.push(lostPiece);
+                };
             }
             board[selectedPiece.coordinates[0]][selectedPiece.coordinates[1]] = null;
             selectedPiece.selected = false;
@@ -301,12 +341,13 @@ function handleMovePiece(evt) {
             break;
         }
     }
-
     getAvailMoves();
+    squareEls.forEach(SquareEl => SquareEl.style.border = '');
+    checkWinner();
     render();
 }
 
 function checkWinner() {
-    if (blackScore === 0) { winner = 1 };
-    if (redScore === 0) { winner = -1 };
+    if (blackScore === 0) { winner = -1 };
+    if (redScore === 0) { winner = 1 };
 }
