@@ -110,16 +110,16 @@ let redGraveyard;
 // let selectedPiece;
 
 /*----- cached elements  -----*/
-const squareEls = document.querySelectorAll('#board > div')
-let blackPieceEls = document.querySelectorAll('span[class^="black"]')
-let redPieceEls = document.querySelectorAll('span[class^="red-piece"]')
-const messageEl = document.querySelector('main h1')
-const changePieceEl = document.getElementById('change-piece')
-const endTurnBtnEl = document.getElementById('end-turn')
+const squareEls = document.querySelectorAll('#board > div');
+let blackPieceEls = document.querySelectorAll('span[class^="black"]');
+let redPieceEls = document.querySelectorAll('span[class^="red-piece"]');
+const messageEl = document.querySelector('main h1');
+const changePieceEl = document.getElementById('change-piece');
+const endTurnBtnEl = document.getElementById('end-turn');
 const boardEl = document.getElementById("board");
-const playAgainBtnEl = document.getElementById('play-again')
-const redGraveyardEls = document.querySelectorAll('#red-graveyard > div')
-const blackGraveyardEls = document.querySelectorAll('#black-graveyard > div')
+const playAgainBtnEl = document.getElementById('play-again');
+const redGraveyardEls = document.querySelectorAll('#red-graveyard > div');
+const blackGraveyardEls = document.querySelectorAll('#black-graveyard > div');
 
 /*----- event listeners -----*/
 boardEl.addEventListener("click", function (evt) {
@@ -150,7 +150,7 @@ function init() {
     selectedPiece = null;
     blackGraveyard = [];
     redGraveyard = [];
-    setBoard()
+    setBoard();
     getAvailMoves();
     render();
 };
@@ -182,16 +182,16 @@ function render() {
 function renderRedGraveYard() {
     i = 0
     redGraveyard.forEach(redGrave => {
-        redGraveyardEls[i].innerHTML = '<span class="red-piece"></span>'
-        i++
+        redGraveyardEls[i].innerHTML = '<span class="red-piece"></span>';
+        i++;
     })
 };
 
 function renderBlackGraveYard() {
     i = 0
     blackGraveyard.forEach(blackGrave => {
-        blackGraveyardEls[i].innerHTML = '<span class="black-piece"></span>'
-        i++
+        blackGraveyardEls[i].innerHTML = '<span class="black-piece"></span>';
+        i++;
     })
 };
 
@@ -201,9 +201,9 @@ function renderBoard() {
             const sqEl = document.getElementById(`r${r}c${c}`);
             if (board[r][c]) {
                 if (board[r][c].king && board[r][c].color === "red") {
-                    sqEl.innerHTML = SPAN['redKing']
+                    sqEl.innerHTML = SPAN['redKing'];
                 } else if (board[r][c].king && board[r][c].color === "black") {
-                    sqEl.innerHTML = SPAN['blackKing']
+                    sqEl.innerHTML = SPAN['blackKing'];
                 } else {
                     sqEl.innerHTML = SPAN[board[r][c].color];
                 }
@@ -231,14 +231,12 @@ function handleClick(evt) {
 
     selectedPiece = board[row][col];
     selectedPiece.selected = true;
-    console.log(squareEls[parseInt(row * 8) + parseInt(col)])
     squareEls[parseInt(row * 8) + parseInt(col)].style.border = '3px dotted green';
-    // winner = checkWinner();
-    render()
+    render();
 }
 
 function resetSelectedPiece(evt) {
-    squareEls.forEach(SquareEl => SquareEl.style.border = '')
+    squareEls.forEach(SquareEl => SquareEl.style.border = '');
     selectedPiece = null;
     render();
 }
@@ -252,7 +250,7 @@ function getAvailMoves() {
                 "black": "red",
                 "red": "black"
             }
-            if (board[r][c].color === "black" || board[r][c].king) board[r][c].mvDiagUpLeft = checkDiagUpLeft(r - 1, c - 1)
+            if (board[r][c].color === "black" || board[r][c].king) board[r][c].mvDiagUpLeft = checkDiagUpLeft(r - 1, c - 1);
             if (board[r][c].color === "black" || board[r][c].king) board[r][c].mvDiagUpRight = checkDiagUpRight(r - 1, c + 1);
             if (board[r][c].color === "black" || board[r][c].king) board[r][c].jumpDiagUpLeft = checkJumpDiagUpLeft(r - 2, c - 2, colorToFind[board[r][c].color]);
             if (board[r][c].color === "black" || board[r][c].king) board[r][c].jumpDiagUpRight = checkJumpDiagUpRight(r - 2, c + 2, colorToFind[board[r][c].color]);
@@ -356,7 +354,6 @@ function handleMovePiece(evt) {
             if (jump) {
                 removeRow = (selectedPiece.coordinates[0] - pieceMoveRow) / 2;
                 removeCol = (selectedPiece.coordinates[1] - pieceMoveCol) / 2;
-                console.log(removeRow + row, removeCol + col);
                 let lostPiece = board[row + removeRow][col + removeCol];
                 board[row + removeRow][col + removeCol] = null;
                 if (lostPiece.color === "red") {
