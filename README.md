@@ -2,6 +2,13 @@
 
 (Not Chess)
 
+Two players - each on opposite ends of the board. Each player starts with 12 pieces (checkers) each.
+
+Checkers can only move diagonally on gold squares. Checkers can "jump" over opponent checkers diagonally. At 
+which point, that "jumped" opponent checker will be considered captured and removed from the board.
+
+The goal is the capture all the checkers of the opponent!
+
 # Screenshots
 
 <img src="Screenshots/Starting-Screen.png" width ="500vmin">
