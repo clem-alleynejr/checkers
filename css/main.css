@@ -4,7 +4,7 @@
 }
 
 body {
-  height: 100vh;
+  /* height: 100vh; */
   margin: 0;
   font-family: "Bruno Ace SC", cursive;
   display: flex;
@@ -140,6 +140,10 @@ button {
 button:hover {
   color: white;
   background-color: darkgrey;
+}
+
+#play-again {
+   margin-top: 20px; 
 }
 
 
