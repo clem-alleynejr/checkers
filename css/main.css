@@ -128,10 +128,13 @@ h1 {
 }
 
 button {
-  border: 0.1vmin solid grey;
-  color: grey;
+  color: white;
+  background-color: black;
   transition: 0.2s ease-out;
   margin: 5px auto 20px;
+  padding: 10px;
+  border-radius: 9px;
+  font-size: 15px;
 }
 
 button:hover {
