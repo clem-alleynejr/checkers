@@ -34,11 +34,11 @@ header {
 }
 
 header span:nth-of-type(even) {
-    color: black;
+    color: red;
 }
 
 header span:nth-of-type(odd) {
-    color: red;
+    color: black;
 }
 
 h1 {
