@@ -31,6 +31,7 @@ header {
   /* font-size: 6vmin; */
   font-size: 48px;
   letter-spacing: 1vmin;
+  padding: 10px 20px;
 }
 
 header span:nth-of-type(even) {
@@ -45,7 +46,7 @@ h1 {
   color: black;
   font-size: 30px;
   text-align: center;
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 #board {
