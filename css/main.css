@@ -8,6 +8,7 @@ body {
   margin: 0;
   font-family: "Bruno Ace SC", cursive;
   display: flex;
+  gap: 20px;
   justify-content: center;
   align-items: center;
   background-image: url("https://blenderartists.org/uploads/default/original/4X/7/e/2/7e2d7bea4ac21388c4a96e1371f375c4ce00094b.jpg");
@@ -102,18 +103,18 @@ h1 {
 
 #black-graveyard {
   display: grid;
-  grid-template-columns: repeat(2, 10vmin);
-  grid-template-rows: repeat(6, 10vmin);
-  width: 10vw;
+  grid-template-columns: repeat(2, calc(12.5vh - 30px));
+  grid-template-rows: repeat(6, calc(12.5vh - 30px));
+  /* width: 10vw; */
   background-color: rgba(255, 255, 255, 0.33);
   order: 1;
 }
 
 #red-graveyard {
   display: grid;
-  grid-template-columns: repeat(2, 10vmin);
-  grid-template-rows: repeat(6, 10vmin);
-  width: 10vw;
+  grid-template-columns: repeat(2, calc(12.5vh - 30px));
+  grid-template-rows: repeat(6, calc(12.5vh - 30px));
+  /* width: 10vw; */
   background-color: rgba(255, 255, 255, 0.33);
   order: 3;
 }
