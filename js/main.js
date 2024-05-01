@@ -176,7 +176,7 @@ function render() {
         if (turn === -1) { messageEl.innerHTML = '<span style="color: red">RED\'s TURN</span>' };
     }
     playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
-    changePieceEl.style.visibility = selectedPiece ? 'visible' : 'hidden';
+    changePieceEl.disabled = selectedPiece ? false : true;
 }
 
 function renderRedGraveYard() {

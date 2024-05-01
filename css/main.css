@@ -18,11 +18,11 @@ body {
 
 main {
   background-color: rgba(255, 255, 255, 0.33);
-  margin-top: 5vmin;
+  margin-top: 10px;
   margin-bottom: 5vmin;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   order: 2;
 }
@@ -30,7 +30,7 @@ main {
 header {
   /* font-size: 6vmin; */
   font-size: 48px;
-  letter-spacing: 1vmin;
+  /* letter-spacing: 1vmin; */
   padding: 10px 20px;
 }
 
@@ -144,7 +144,7 @@ button:hover {
 }
 
 #play-again {
-   margin-top: 20px; 
+  margin-top: 20px;
 }
 
 
