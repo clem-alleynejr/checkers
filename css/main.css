@@ -147,7 +147,7 @@ button#change-piece:hover {
 }
 
 button#change-piece:disabled {
-    cursor: not-allowed;
+    cursor: auto;
     background-color: rgb(120, 120, 120);
 }
 

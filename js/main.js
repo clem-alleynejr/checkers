@@ -177,6 +177,7 @@ function render() {
     }
     playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
     changePieceEl.disabled = selectedPiece ? false : true;
+    changePieceEl.textContent = selectedPiece ? 'CHANGE SELECTED PIECE' : 'SELECT A PIECE TO MOVE';
 }
 
 function renderRedGraveYard() {
