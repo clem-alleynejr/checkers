@@ -110,6 +110,12 @@ h1 {
   order: 1;
 }
 
+#black-graveyard > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 #red-graveyard {
   display: grid;
   grid-template-columns: repeat(2, calc(12.5vh - 30px));
@@ -118,6 +124,12 @@ h1 {
   background-color: rgba(255, 255, 255, 0.33);
   order: 3;
 }
+
+#red-graveyard > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
 button#change-piece {
   color: white;
