@@ -55,15 +55,15 @@ h1 {
   grid-template-columns: repeat(8, calc(12.5vh - 30px));
   grid-template-rows: repeat(8, calc(12.5vh - 30px));
   gap: 0;
-  border: 1vmin solid black;
+  border: 8px solid black;
   position: relative;
 }
 
 .black-piece {
   border-radius: 50%;
   background-color: black;
-  height: 7vmin;
-  width: 7vmin;
+  height: calc(12.5vh - 45px);
+  width: calc(12.5vh - 45px);
   display: inline-block;
 }
 
@@ -71,16 +71,16 @@ h1 {
   border: 4px solid red;
   border-radius: 50%;
   background-color: black;
-  height: 7vmin;
-  width: 7vmin;
+  height: calc(12.5vh - 45px);
+  width: calc(12.5vh - 45px);
   display: inline-block;
 }
 
 .red-piece {
   border-radius: 50%;
   background-color: red;
-  height: 7vmin;
-  width: 7vmin;
+  height: calc(12.5vh - 45px);
+  width: calc(12.5vh - 45px);
   display: inline-block;
 }
 
@@ -88,8 +88,8 @@ h1 {
   border: 2px solid black;
   border-radius: 50%;
   background-color: red;
-  height: 7vmin;
-  width: 7vmin;
+  height: calc(12.5vh - 45px);
+  width: calc(12.5vh - 45px);
   display: inline-block;
 }
 
