@@ -54,6 +54,7 @@ h1 {
   gap: 0;
   border: 8px solid black;
   position: relative;
+  margin: auto 20px;
 }
 
 .black-piece {
@@ -103,6 +104,7 @@ h1 {
   grid-template-rows: repeat(6, calc(12.5vh - 30px));
   background-color: rgba(255, 255, 255, 0.33);
   order: 1;
+  margin-left: 20px;
 }
 
 #black-graveyard > div {
@@ -117,6 +119,7 @@ h1 {
   grid-template-rows: repeat(6, calc(12.5vh - 30px));
   background-color: rgba(255, 255, 255, 0.33);
   order: 3;
+  margin-right: 20px;
 }
 
 #red-graveyard > div {
