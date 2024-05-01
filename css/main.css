@@ -4,7 +4,7 @@
 }
 
 body {
-  /* height: 100vh; */
+  height: 100vh;
   margin: 0;
   font-family: "Bruno Ace SC", cursive;
   display: flex;
@@ -19,12 +19,13 @@ body {
 main {
   background-color: rgba(255, 255, 255, 0.33);
   margin-top: 10px;
-  margin-bottom: 5vmin;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
   order: 2;
+  /* height: 100vh; */
+  padding-bottom: 10px;
 }
 
 header {
@@ -44,15 +45,15 @@ header span:nth-of-type(odd) {
 
 h1 {
   color: black;
-  font-size: 30px;
+  font-size: 20px;
   text-align: center;
   margin-top: 5px;
 }
 
 #board {
   display: grid;
-  grid-template-columns: repeat(8, 10vmin);
-  grid-template-rows: repeat(8, 10vmin);
+  grid-template-columns: repeat(8, 9vh);
+  grid-template-rows: repeat(8, 9vh);
   gap: 0;
   border: 1vmin solid black;
   position: relative;
@@ -136,18 +137,24 @@ button#change-piece {
   margin: 5px auto 20px;
   padding: 10px;
   border-radius: 9px;
-  font-size: 15px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 button#change-piece:hover {
   color: white;
-  background-color: darkgrey;
+  background-color: rgb(57, 57, 57);
+}
+
+button#change-piece:disabled {
+    cursor: not-allowed;
+    background-color: rgb(120, 120, 120);
 }
 
 
 button#play-again {
   color: white;
-  background-color: black;
+  background-color: blue;
   transition: 0.2s ease-out;
   /* margin: auto; */
   padding: 10px;
