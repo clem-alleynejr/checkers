@@ -169,15 +169,17 @@ function render() {
     renderRedGraveYard();
     renderBlackGraveYard();
     if (winner) {
-        if (winner === 1) { messageEl.innerHTML = '<span style="color: black">BLACK WINS!</span>' };
+        if (winner === 1) { messageEl.innerHTML = '<span style="color: black">BLACK WINS!</span>'};
         if (winner === -1) { messageEl.innerHTML = '<span style="color: red">RED WINS!</span>' };
+        changePieceEl.textContent = 'CONGRATULATIONS :)';
+        playAgainBtnEl.style.visibility = 'visible';
     } else {
         if (turn === 1) { messageEl.innerHTML = '<span style="color: black">BLACK\'s TURN</span>' };
         if (turn === -1) { messageEl.innerHTML = '<span style="color: red">RED\'s TURN</span>' };
+        changePieceEl.disabled = selectedPiece ? false : true;
+        changePieceEl.textContent = selectedPiece ? 'CHANGE SELECTED PIECE' : 'SELECT A PIECE TO MOVE';
+        playAgainBtnEl.style.visibility = 'hidden';
     }
-    playAgainBtnEl.style.visibility = winner ? 'visible' : 'hidden';
-    changePieceEl.disabled = selectedPiece ? false : true;
-    changePieceEl.textContent = selectedPiece ? 'CHANGE SELECTED PIECE' : 'SELECT A PIECE TO MOVE';
 }
 
 function renderRedGraveYard() {
