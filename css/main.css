@@ -5,7 +5,6 @@
 
 body {
   height: 100vh;
-  margin: 0;
   font-family: "Bruno Ace SC", cursive;
   display: flex;
   gap: 20px;
@@ -22,18 +21,15 @@ main {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   order: 2;
-  /* height: 100vh; */
   padding-bottom: 10px;
 }
 
 header {
-  /* font-size: 6vmin; */
   font-size: 48px;
-  /* letter-spacing: 1vmin; */
   padding: 10px 20px;
+  text-align: center;
 }
 
 header span:nth-of-type(even) {
@@ -105,7 +101,6 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, calc(12.5vh - 30px));
   grid-template-rows: repeat(6, calc(12.5vh - 30px));
-  /* width: 10vw; */
   background-color: rgba(255, 255, 255, 0.33);
   order: 1;
 }
@@ -120,7 +115,6 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, calc(12.5vh - 30px));
   grid-template-rows: repeat(6, calc(12.5vh - 30px));
-  /* width: 10vw; */
   background-color: rgba(255, 255, 255, 0.33);
   order: 3;
 }
@@ -157,7 +151,7 @@ button#play-again {
   color: white;
   background-color: blue;
   transition: 0.2s ease-out;
-  /* margin: auto; */
+
   padding: 15px;
   border-radius: 9px;
   font-size: 35px;
