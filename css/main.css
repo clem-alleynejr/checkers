@@ -52,8 +52,8 @@ h1 {
 
 #board {
   display: grid;
-  grid-template-columns: repeat(8, 9vh);
-  grid-template-rows: repeat(8, 9vh);
+  grid-template-columns: repeat(8, calc(12.5vh - 30px));
+  grid-template-rows: repeat(8, calc(12.5vh - 30px));
   gap: 0;
   border: 1vmin solid black;
   position: relative;
@@ -157,14 +157,13 @@ button#play-again {
   background-color: blue;
   transition: 0.2s ease-out;
   /* margin: auto; */
-  padding: 10px;
+  padding: 15px;
   border-radius: 9px;
-  font-size: 15px;
+  font-size: 35px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 48px;
   cursor: pointer;
 }
 

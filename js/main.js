@@ -171,7 +171,7 @@ function render() {
     if (winner) {
         if (winner === 1) { messageEl.innerHTML = '<span style="color: black">BLACK WINS!</span>'};
         if (winner === -1) { messageEl.innerHTML = '<span style="color: red">RED WINS!</span>' };
-        changePieceEl.textContent = 'CONGRATULATIONS :)';
+        changePieceEl.textContent = 'CONGRATULATIONS 😃';
         playAgainBtnEl.style.visibility = 'visible';
     } else {
         if (turn === 1) { messageEl.innerHTML = '<span style="color: black">BLACK\'s TURN</span>' };
