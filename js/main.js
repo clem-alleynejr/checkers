@@ -71,10 +71,9 @@
 /*----- constants -----*/
 const SPAN = {
     'black': `<span class="black-piece"></span>`,
-    'blackKing': `<span class="black-king"></span>`,
+    'blackKing': `<span class="black-piece">K</span>`,
     'red': `<span class="red-piece"></span>`,
-    'redKing': `<span class="red-king"></span>`,
-
+    'redKing': `<span class="red-piece">K</span>`,
 }
 
 class Piece {
