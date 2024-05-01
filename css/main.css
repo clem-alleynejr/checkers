@@ -55,6 +55,7 @@ h1 {
   grid-template-rows: repeat(8, 10vmin);
   gap: 0;
   border: 1vmin solid black;
+  position: relative;
 }
 
 .black-piece {
@@ -128,7 +129,7 @@ h1 {
   order: 3;
 }
 
-button {
+button#change-piece {
   color: white;
   background-color: black;
   transition: 0.2s ease-out;
@@ -138,13 +139,32 @@ button {
   font-size: 15px;
 }
 
-button:hover {
+button#change-piece:hover {
   color: white;
   background-color: darkgrey;
 }
 
-#play-again {
-  margin-top: 20px;
+
+button#play-again {
+  color: white;
+  background-color: black;
+  transition: 0.2s ease-out;
+  /* margin: auto; */
+  padding: 10px;
+  border-radius: 9px;
+  font-size: 15px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
 }
+
+button#play-again:hover {
+  color: white;
+  background-color: darkgrey;
+}
+
+
 
 
