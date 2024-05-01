@@ -3,7 +3,7 @@
   margin: 0;
 }
 
-body {
+.body-container {
   height: 100vh;
   font-family: "Bruno Ace SC", cursive;
   display: flex;
