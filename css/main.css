@@ -20,7 +20,7 @@ main {
   /* margin-top: 10px; */
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
   padding-bottom: 10px;
 }
@@ -186,19 +186,19 @@ button#play-again:hover {
 @media (max-width: 768px) {
 
     header {
-        font-size: 30px;
+        font-size: clamp(20px, 3.9vw, 36px); 
       }
 
       h1 {
-        font-size: 18px;
+        font-size: clamp(12px, 2.3vw, 20px);
       }
 
       button#change-piece {
-        font-size: 11px;
+        font-size: clamp(7px, 1.4vw, 12px);
       }
 
       button#play-again {
-        font-size: 21px;
+        font-size: clamp(14px, 2.7vw, 25px);
       }
 
       #board {
@@ -215,4 +215,25 @@ button#play-again:hover {
         grid-template-columns: repeat(2, 7vmin);
         grid-template-rows: repeat(6, 7vmin);
       }
+}
+
+
+@media (max-width: 425px) {
+
+
+    header {
+        padding: 10px 10px;
+    }
+
+    .board-and-graveyards {
+        gap: 5px
+    }
+
+    #red-graveyard {
+        margin-right: 10px;
+    }
+
+    #black-graveyard {
+        margin-left: 10px;
+    }
 }
