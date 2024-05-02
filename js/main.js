@@ -227,15 +227,30 @@ function render() {
 }
 
 function renderRedGraveYard() {
-  i = 0;
-  redGraveyard.forEach((redGrave) => {
+  if (redGraveyard.length === 0) {
+    for (let i = 0 ; i < 12 ; i++) {
+        redGraveyardEls[i].innerHTML = '<span></span>'
+    }
+    return;
+  }
+    
+  let i = 0;
+    redGraveyard.forEach((redGrave) => {
     redGraveyardEls[i].innerHTML = '<span class="red-piece"></span>';
     i++;
-  });
+    });
 }
 
 function renderBlackGraveYard() {
-  i = 0;
+    if (blackGraveyard.length === 0) {
+        for (let i = 0 ; i < 12 ; i++) {
+            blackGraveyardEls[i].innerHTML = '<span></span>'
+        }
+        return;
+      }
+  
+  
+    let i = 0;
   blackGraveyard.forEach((blackGrave) => {
     blackGraveyardEls[i].innerHTML = '<span class="black-piece"></span>';
     i++;
