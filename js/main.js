@@ -184,7 +184,7 @@ function render() {
   if (winner) {
     if (winner === 1) {
       messageEl.innerHTML = '<span style="color: black">BLACK WINS!</span>';
-      changePieceEl.style.backgroundColor = 'black';
+      changePieceEl.style.backgroundColor = "black";
     }
     if (winner === -1) {
       messageEl.innerHTML = '<span style="color: red">RED WINS!</span>';
@@ -215,11 +215,13 @@ function render() {
       changePieceEl.style.backgroundColor = "rgb(255, 180, 180)";
     }
 
-    if (selectedPiece.color === "black") {
-      changePieceEl.style.backgroundColor = "black";
-    }
-    if (selectedPiece.color === "red") {
-      changePieceEl.style.backgroundColor = "red";
+    if (selectedPiece) {
+      if (selectedPiece.color === "black") {
+        changePieceEl.style.backgroundColor = "black";
+      }
+      if (selectedPiece.color === "red") {
+        changePieceEl.style.backgroundColor = "red";
+      }
     }
   }
 }
