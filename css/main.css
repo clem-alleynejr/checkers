@@ -230,19 +230,19 @@ button#play-again:hover {
     }
 
     #board {
-        grid-template-columns: repeat(8, 9vmin);
-        grid-template-rows: repeat(8, 9vmin);
+        grid-template-columns: repeat(8, 10vmin);
+        grid-template-rows: repeat(8, 10vmin);
       }
 
     #red-graveyard {
-        grid-template-columns: 4.5vmin;
-        grid-template-rows: repeat(12, 4.5vmin);
+        grid-template-columns: 5vmin;
+        grid-template-rows: repeat(12, 5vmin);
         margin-right: 10px;
     }
 
     #black-graveyard {
-        grid-template-columns: 4.5vmin;
-        grid-template-rows: repeat(12, 4.5vmin);
+        grid-template-columns: 5vmin;
+        grid-template-rows: repeat(12, 5vmin);
         margin-left: 10px;
     }
 }
