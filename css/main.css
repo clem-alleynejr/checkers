@@ -3,13 +3,9 @@
   margin: 0;
 }
 
-.main-app {
+body {
   height: 100vh;
   font-family: "Bruno Ace SC", cursive;
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
   background-image: url("https://blenderartists.org/uploads/default/original/4X/7/e/2/7e2d7bea4ac21388c4a96e1371f375c4ce00094b.jpg");
   background-position: center;
   background-repeat: no-repeat;
@@ -17,13 +13,17 @@
 }
 
 main {
-  background-color: rgba(255, 255, 255, 0.33);
-  margin-top: 10px;
+  /* background-color: rgba(255, 255, 255, 0.33); */
+  /* margin-top: 10px; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  order: 2;
   padding-bottom: 10px;
+}
+
+.header-turn-button {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.33);
 }
 
 header {
@@ -47,6 +47,33 @@ h1 {
   margin-top: 5px;
 }
 
+button#change-piece {
+  color: white;
+  background-color: black;
+  transition: 0.2s ease-out;
+  margin: 5px auto 20px;
+  padding: 10px;
+  border-radius: 9px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+button#change-piece:hover {
+  color: white;
+  background-color: rgb(60, 60, 60);
+}
+
+button#change-piece:disabled {
+  cursor: auto;
+  background-color: rgb(120, 120, 120);
+}
+
+.board-and-graveyards {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.33);
+  align-items: center;
+}
+
 #board {
   display: grid;
   grid-template-columns: repeat(8, calc(12.5vmin - 30px));
@@ -65,7 +92,7 @@ h1 {
   width: 70%;
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .red-piece {
@@ -76,7 +103,7 @@ h1 {
   width: 70%;
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
 }
 
 #board > div {
@@ -103,52 +130,30 @@ h1 {
   grid-template-columns: repeat(2, calc(12.5vmin - 30px));
   grid-template-rows: repeat(6, calc(12.5vmin - 30px));
   background-color: rgba(255, 255, 255, 0.33);
-  order: 1;
+
   margin-left: 20px;
 }
 
 #black-graveyard > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 #red-graveyard {
   display: grid;
   grid-template-columns: repeat(2, calc(12.5vmin - 30px));
   grid-template-rows: repeat(6, calc(12.5vmin - 30px));
   background-color: rgba(255, 255, 255, 0.33);
-  order: 3;
+
   margin-right: 20px;
 }
 
 #red-graveyard > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-button#change-piece {
-  color: white;
-  background-color: black;
-  transition: 0.2s ease-out;
-  margin: 5px auto 20px;
-  padding: 10px;
-  border-radius: 9px;
-  font-size: 12px;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-button#change-piece:hover {
-  color: white;
-  background-color: rgb(60, 60, 60);
-}
-
-button#change-piece:disabled {
-    cursor: auto;
-    background-color: rgb(120, 120, 120);
-}
-
 
 button#play-again {
   color: white;
@@ -169,18 +174,15 @@ button#play-again:hover {
   background-color: darkgrey;
 }
 
-
 @media (max-width: 880px) {
+  header {
+    font-size: 5.078vw;
+  }
 
-    header {
-        font-size: 5.078vw;
-      }
-
-
-      button#change-piece {
+  /* button#change-piece {
         font-size: 1.364vw;
-      }
-    /* header {
+      } */
+  /* header {
         font-size: 5.339vw;
       }
 
@@ -221,13 +223,25 @@ button#play-again:hover {
       button#play-again {
         font-size: 2.734vw;
       } */
-      
 }
-
 
 /* Tablet Design */
 
 @media (max-width: 768px) {
+  header {
+    font-size: 36px;
+  }
 
+  h1 {
+    font-size: 18px;
+    margin-top: 0;
+  }
+
+  button#change-piece {
+    font-size: 11px;
+  }
+
+  .main-app {
+    gap: 5px;
+  }
 }
-
