@@ -229,11 +229,20 @@ button#play-again:hover {
         gap: 5px
     }
 
+    #board {
+        grid-template-columns: repeat(8, 9vmin);
+        grid-template-rows: repeat(8, 9vmin);
+      }
+
     #red-graveyard {
+        grid-template-columns: 4.5vmin;
+        grid-template-rows: repeat(12, 4.5vmin);
         margin-right: 10px;
     }
 
     #black-graveyard {
+        grid-template-columns: 4.5vmin;
+        grid-template-rows: repeat(12, 4.5vmin);
         margin-left: 10px;
     }
 }
