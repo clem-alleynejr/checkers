@@ -13,6 +13,7 @@ The goal is the capture all the checkers of the opponent!
 
 <img src="Screenshots/Starting-Screen.png" width ="500vmin">
 <img src="Screenshots/Mid-Game.png" width ="500vmin">
+<img src="Screenshots/Mid-Mid-Game.png" width ="500vmin">
 <img src="Screenshots/End-Game.png" width ="500vmin">
 
 # Technologies Used
