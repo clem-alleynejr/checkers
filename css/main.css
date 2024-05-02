@@ -49,10 +49,10 @@ h1 {
 
 #board {
   display: grid;
-  grid-template-columns: repeat(8, calc(12.5vh - 30px));
-  grid-template-rows: repeat(8, calc(12.5vh - 30px));
+  grid-template-columns: repeat(8, calc(12.5vmin - 30px));
+  grid-template-rows: repeat(8, calc(12.5vmin - 30px));
   gap: 0;
-  border: 8px solid black;
+  border: 0.7vmin solid black;
   position: relative;
   margin: auto 20px;
 }
@@ -61,8 +61,8 @@ h1 {
   border-radius: 50%;
   color: white;
   background-color: black;
-  height: calc(12.5vh - 45px);
-  width: calc(12.5vh - 45px);
+  height: 70%;
+  width: 70%;
   display: flex;
   align-items: center;
   justify-content: center; 
@@ -72,8 +72,8 @@ h1 {
   border-radius: 50%;
   color: black;
   background-color: red;
-  height: calc(12.5vh - 45px);
-  width: calc(12.5vh - 45px);
+  height: 70%;
+  width: 70%;
   display: flex;
   align-items: center;
   justify-content: center; 
@@ -100,8 +100,8 @@ h1 {
 
 #black-graveyard {
   display: grid;
-  grid-template-columns: repeat(2, calc(12.5vh - 30px));
-  grid-template-rows: repeat(6, calc(12.5vh - 30px));
+  grid-template-columns: repeat(2, calc(12.5vmin - 30px));
+  grid-template-rows: repeat(6, calc(12.5vmin - 30px));
   background-color: rgba(255, 255, 255, 0.33);
   order: 1;
   margin-left: 20px;
@@ -115,8 +115,8 @@ h1 {
 
 #red-graveyard {
   display: grid;
-  grid-template-columns: repeat(2, calc(12.5vh - 30px));
-  grid-template-rows: repeat(6, calc(12.5vh - 30px));
+  grid-template-columns: repeat(2, calc(12.5vmin - 30px));
+  grid-template-rows: repeat(6, calc(12.5vmin - 30px));
   background-color: rgba(255, 255, 255, 0.33);
   order: 3;
   margin-right: 20px;
@@ -171,7 +171,16 @@ button#play-again:hover {
 
 
 @media (max-width: 880px) {
+
     header {
+        font-size: 5.078vw;
+      }
+
+
+      button#change-piece {
+        font-size: 1.364vw;
+      }
+    /* header {
         font-size: 5.339vw;
       }
 
@@ -211,12 +220,14 @@ button#play-again:hover {
 
       button#play-again {
         font-size: 2.734vw;
-      }
+      } */
       
 }
 
 
 /* Tablet Design */
 
+@media (max-width: 768px) {
 
+}
 
