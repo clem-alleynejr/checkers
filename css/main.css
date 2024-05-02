@@ -3,7 +3,7 @@
   margin: 0;
 }
 
-.body-container {
+.main-app {
   height: 100vh;
   font-family: "Bruno Ace SC", cursive;
   display: flex;
@@ -86,7 +86,7 @@ h1 {
 }
 
 #board > div:hover {
-  border: 0.25vmin solid blue;
+  border: 2px solid blue;
   transition: 0.2s ease-out;
 }
 
@@ -154,10 +154,9 @@ button#play-again {
   color: white;
   background-color: blue;
   transition: 0.2s ease-out;
-
   padding: 15px;
   border-radius: 9px;
-  font-size: 35px;
+  font-size: 25px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -170,6 +169,54 @@ button#play-again:hover {
   background-color: darkgrey;
 }
 
+
+@media (max-width: 880px) {
+    header {
+        font-size: 5.339vw;
+      }
+
+      #board {
+        grid-template-columns: repeat(8, 5.114vw);
+        grid-template-rows: repeat(8, 5.114vw);
+        border: 0.909vw solid black;
+      }
+
+      #black-graveyard {
+        grid-template-columns: repeat(2, 5.114vw);
+        grid-template-rows: repeat(6, 5.114vw);
+      }
+      
+      #red-graveyard {
+        grid-template-columns: repeat(2, 5.114vw);
+        grid-template-rows: repeat(6, 5.114vw);
+      }
+
+      .black-piece {
+        height: 3.409vw;
+        width: 3.409vw;
+      }
+
+      .red-piece {
+        height: 3.409vw;
+        width: 3.409vw;
+      }
+
+      #board > div:hover {
+        border: 0.227vw solid blue;
+      }
+
+      button#change-piece {
+        font-size: 1.364vw;
+      }
+
+      button#play-again {
+        font-size: 2.734vw;
+      }
+      
+}
+
+
+/* Tablet Design */
 
 
 
