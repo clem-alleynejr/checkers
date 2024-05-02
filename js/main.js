@@ -124,6 +124,24 @@ boardEl.addEventListener("click", function (evt) {
 changePieceEl.addEventListener("click", resetSelectedPiece);
 playAgainBtnEl.addEventListener("click", resetGame);
 
+changePieceEl.addEventListener("mouseenter", function () {
+  if (!changePieceEl.disabled && turn === 1) {
+    this.style.backgroundColor = "rgb(60, 60, 60)";
+  }
+  if (!changePieceEl.disabled && turn === -1) {
+    this.style.backgroundColor = "rgb(255, 90, 90)";
+  }
+});
+
+changePieceEl.addEventListener("mouseleave", function () {
+  if (!changePieceEl.disabled && turn === 1) {
+    this.style.backgroundColor = "black";
+  }
+  if (!changePieceEl.disabled && turn === -1) {
+    this.style.backgroundColor = "red";
+  }
+});
+
 /*----- functions -----*/
 init();
 
@@ -166,9 +184,11 @@ function render() {
   if (winner) {
     if (winner === 1) {
       messageEl.innerHTML = '<span style="color: black">BLACK WINS!</span>';
+      changePieceEl.style.backgroundColor = 'black';
     }
     if (winner === -1) {
       messageEl.innerHTML = '<span style="color: red">RED WINS!</span>';
+      changePieceEl.style.backgroundColor = "red";
     }
     changePieceEl.textContent = "CONGRATULATIONS 😃";
     playAgainBtnEl.style.visibility = "visible";
@@ -179,11 +199,28 @@ function render() {
     if (turn === -1) {
       messageEl.innerHTML = '<span style="color: red">RED\'s TURN</span>';
     }
+
     changePieceEl.disabled = selectedPiece ? false : true;
+
     changePieceEl.textContent = selectedPiece
       ? "CHANGE SELECTED PIECE"
       : "SELECT A PIECE TO MOVE";
+
     playAgainBtnEl.style.visibility = "hidden";
+
+    if (changePieceEl.disabled && turn === 1) {
+      changePieceEl.style.backgroundColor = "rgb(120, 120, 120)";
+    }
+    if (changePieceEl.disabled && turn === -1) {
+      changePieceEl.style.backgroundColor = "rgb(255, 180, 180)";
+    }
+
+    if (selectedPiece.color === "black") {
+      changePieceEl.style.backgroundColor = "black";
+    }
+    if (selectedPiece.color === "red") {
+      changePieceEl.style.backgroundColor = "red";
+    }
   }
 }
 
