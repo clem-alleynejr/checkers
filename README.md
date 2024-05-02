@@ -11,10 +11,12 @@ The goal is the capture all the checkers of the opponent!
 
 # Screenshots
 
-<img src="Screenshots/Starting-Screen.png" width ="500vmin">
-<img src="Screenshots/Mid-Game.png" width ="500vmin">
-<img src="Screenshots/Mid-Mid-Game.png" width ="500vmin">
-<img src="Screenshots/End-Game.png" width ="500vmin">
+<div align="center">
+  <img src="Screenshots/Starting-Screen.png" width="500vmin">
+  <img src="Screenshots/Mid-Game.png" width="500vmin">
+  <img src="Screenshots/Mid-Mid-Game.png" width="500vmin">
+  <img src="Screenshots/End-Game.png" width="500vmin">
+</div>
 
 # Technologies Used
 
