@@ -20,7 +20,7 @@ main {
   /* margin-top: 10px; */
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
   padding-bottom: 10px;
 }
@@ -28,10 +28,11 @@ main {
 .header-turn-button {
   text-align: center;
   background-color: rgba(255, 255, 255, 0.33);
+  border-radius: 23px;
 }
 
 header {
-  font-size: 48px;
+  font-size: 36px;
   padding: 10px 20px;
   text-align: center;
 }
@@ -55,7 +56,7 @@ button#change-piece {
   color: white;
   background-color: black;
   transition: 0.2s ease-out;
-  margin: 5px auto 20px;
+  margin: 5px auto 12px;
   padding: 10px;
   border-radius: 9px;
   font-size: 12px;
@@ -85,8 +86,8 @@ button#change-piece:disabled {
 
 #board {
   display: grid;
-  grid-template-columns: repeat(8, calc(12.5vmin - 30px));
-  grid-template-rows: repeat(8, calc(12.5vmin - 30px));
+  grid-template-columns: repeat(8, calc(12.5vmin - 40px));
+  grid-template-rows: repeat(8, calc(12.5vmin - 40px));
   gap: 0;
   border: 0.7vmin solid black;
   position: relative;
@@ -136,8 +137,8 @@ button#change-piece:disabled {
 
 #black-graveyard {
   display: grid;
-  grid-template-columns: repeat(2, calc(12.5vmin - 30px));
-  grid-template-rows: repeat(6, calc(12.5vmin - 30px));
+  grid-template-columns: repeat(2, calc(12.5vmin - 40px));
+  grid-template-rows: repeat(6, calc(12.5vmin - 40px));
   background-color: rgba(255, 255, 255, 0.33);
 
   margin-left: 20px;
@@ -151,10 +152,9 @@ button#change-piece:disabled {
 
 #red-graveyard {
   display: grid;
-  grid-template-columns: repeat(2, calc(12.5vmin - 30px));
-  grid-template-rows: repeat(6, calc(12.5vmin - 30px));
+  grid-template-columns: repeat(2, calc(12.5vmin - 40px));
+  grid-template-rows: repeat(6, calc(12.5vmin - 40px));
   background-color: rgba(255, 255, 255, 0.33);
-
   margin-right: 20px;
 }
 
@@ -183,74 +183,66 @@ button#play-again:hover {
   background-color: darkgrey;
 }
 
-@media (max-width: 880px) {
-  header {
-    font-size: 5.078vw;
-  }
+@media (max-width: 768px) {
 
-  /* button#change-piece {
-        font-size: 1.364vw;
-      } */
-  /* header {
-        font-size: 5.339vw;
+    header {
+        font-size: clamp(20px, 3.9vw, 36px); 
       }
 
-      #board {
-        grid-template-columns: repeat(8, 5.114vw);
-        grid-template-rows: repeat(8, 5.114vw);
-        border: 0.909vw solid black;
-      }
-
-      #black-graveyard {
-        grid-template-columns: repeat(2, 5.114vw);
-        grid-template-rows: repeat(6, 5.114vw);
-      }
-      
-      #red-graveyard {
-        grid-template-columns: repeat(2, 5.114vw);
-        grid-template-rows: repeat(6, 5.114vw);
-      }
-
-      .black-piece {
-        height: 3.409vw;
-        width: 3.409vw;
-      }
-
-      .red-piece {
-        height: 3.409vw;
-        width: 3.409vw;
-      }
-
-      #board > div:hover {
-        border: 0.227vw solid blue;
+      h1 {
+        font-size: clamp(12px, 2.3vw, 20px);
       }
 
       button#change-piece {
-        font-size: 1.364vw;
+        font-size: clamp(7px, 1.4vw, 12px);
       }
 
       button#play-again {
-        font-size: 2.734vw;
-      } */
+        font-size: clamp(14px, 2.7vw, 25px);
+      }
+
+      #board {
+        grid-template-columns: repeat(8, 7vmin);
+        grid-template-rows: repeat(8, 7vmin);
+      }
+
+      #black-graveyard {
+        grid-template-columns: repeat(2, 7vmin);
+        grid-template-rows: repeat(6, 7vmin);
+      }
+
+      #red-graveyard {
+        grid-template-columns: repeat(2, 7vmin);
+        grid-template-rows: repeat(6, 7vmin);
+      }
 }
 
-/* Tablet Design */
 
-@media (max-width: 768px) {
-  header {
-    font-size: 36px;
-  }
+@media (max-width: 425px) {
 
-  h1 {
-    font-size: 18px;
-    margin-top: 0;
-  }
 
-  button#change-piece {
-    font-size: 11px;
-  }
+    header {
+        padding: 10px 10px;
+    }
 
-  .main-app {
-    gap: 5px;
-  }
+    .board-and-graveyards {
+        gap: 5px
+    }
+
+    #board {
+        grid-template-columns: repeat(8, 10vmin);
+        grid-template-rows: repeat(8, 10vmin);
+      }
+
+    #red-graveyard {
+        grid-template-columns: 5vmin;
+        grid-template-rows: repeat(12, 5vmin);
+        margin-right: 10px;
+    }
+
+    #black-graveyard {
+        grid-template-columns: 5vmin;
+        grid-template-rows: repeat(12, 5vmin);
+        margin-left: 10px;
+    }
 }
