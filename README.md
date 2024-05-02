@@ -28,6 +28,5 @@ The goal is the capture all the checkers of the opponent!
 
 # Next Steps
 
-- Improvements on styling
 - Remove need for "Change Piece" Button
 - Allow for chained jumps
